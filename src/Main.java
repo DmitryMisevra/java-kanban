@@ -46,6 +46,12 @@ public class Main {
         }
         System.out.println();
 
+        System.out.println("Печать списков подзадач эпиков");
+        System.out.println("Эпик 1:");
+        System.out.println(taskManager.getSubtaskListByEpic(3));
+        System.out.println("Эпик 2:");
+        System.out.println(taskManager.getSubtaskListByEpic(4));
+
         simpleTaskOne.setStatus("IN_PROGRESS");
         taskManager.updateSimpleTask(simpleTaskOne);
 
