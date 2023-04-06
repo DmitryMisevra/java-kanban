@@ -35,13 +35,13 @@ public class Main {
 
 
         System.out.println("Состояние объектов сразу после создания");
-        for (SimpleTask simpleTask : taskManager.getSimpleTasks().values()) {
+        for (SimpleTask simpleTask : taskManager.getSimpleTasks()) {
             System.out.println(simpleTask);
         }
-        for (Epic epic : taskManager.getEpics().values()) {
+        for (Epic epic : taskManager.getEpics()) {
             System.out.println(epic);
         }
-        for (Subtask subtask : taskManager.getSubtasks().values()) {
+        for (Subtask subtask : taskManager.getSubtasks()) {
             System.out.println(subtask);
         }
         System.out.println();
@@ -68,13 +68,13 @@ public class Main {
 
 
         System.out.println("Состояние объектов после изменения статусов");
-        for (SimpleTask simpleTask : taskManager.getSimpleTasks().values()) {
+        for (SimpleTask simpleTask : taskManager.getSimpleTasks()) {
             System.out.println(simpleTask);
         }
-        for (Epic epic : taskManager.getEpics().values()) {
+        for (Epic epic : taskManager.getEpics()) {
             System.out.println(epic);
         }
-        for (Subtask subtask : taskManager.getSubtasks().values()) {
+        for (Subtask subtask : taskManager.getSubtasks()) {
             System.out.println(subtask);
         }
         System.out.println();
@@ -84,13 +84,13 @@ public class Main {
         taskManager.removeSubtaskByID(6);
 
         System.out.println("Состояние объектов после удаления части задач");
-        for (SimpleTask simpleTask : taskManager.getSimpleTasks().values()) {
+        for (SimpleTask simpleTask : taskManager.getSimpleTasks()) {
             System.out.println(simpleTask);
         }
-        for (Epic epic : taskManager.getEpics().values()) {
+        for (Epic epic : taskManager.getEpics()) {
             System.out.println(epic);
         }
-        for (Subtask subtask : taskManager.getSubtasks().values()) {
+        for (Subtask subtask : taskManager.getSubtasks()) {
             System.out.println(subtask);
         }
         System.out.println();
@@ -100,13 +100,13 @@ public class Main {
         taskManager.clearEpicTaskList();
 
         System.out.println("Состояние объектов после очищения списков");
-        for (SimpleTask simpleTask : taskManager.getSimpleTasks().values()) {
+        for (SimpleTask simpleTask : taskManager.getSimpleTasks()) {
             System.out.println(simpleTask);
         }
-        for (Epic epic : taskManager.getEpics().values()) {
+        for (Epic epic : taskManager.getEpics()) {
             System.out.println(epic);
         }
-        for (Subtask subtask : taskManager.getSubtasks().values()) {
+        for (Subtask subtask : taskManager.getSubtasks()) {
             System.out.println(subtask);
         }
         System.out.println();
