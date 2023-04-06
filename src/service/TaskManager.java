@@ -10,8 +10,9 @@ import java.util.Objects;
 
 public class TaskManager {
 
-    private int IDCounter = 1;
+    private int IDCounter = 1; // счетчик id
 
+    // для хранения эпиков, задач и подзадач используем HashMap
     private HashMap<Integer, SimpleTask> simpleTasks = new HashMap<>();
     private HashMap<Integer, Epic> epics = new HashMap<>();
     private HashMap<Integer, Subtask> subtasks = new HashMap<>();

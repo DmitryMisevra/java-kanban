@@ -2,10 +2,11 @@ package module;
 
 public class SimpleTask {
 
+    // Атрибуты класса простой задачи - id, имя, описание, статус
     protected int id;
     protected String name;
     protected String description;
-    protected String status = "NEW";
+    protected String status = "NEW"; // статус по умолчанию при создании новой задачи
 
     @Override
     public String toString() {
