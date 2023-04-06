@@ -16,16 +16,19 @@ public class TaskManager {
     private HashMap<Integer, Epic> epics = new HashMap<>();
     private HashMap<Integer, Subtask> subtasks = new HashMap<>();
 
-    public HashMap<Integer, SimpleTask> getSimpleTasks() {
-        return simpleTasks;
+    // getSimpleTasks() возвращает список задач простых задач
+    public ArrayList<SimpleTask> getSimpleTasks() {
+        return new ArrayList<>(simpleTasks.values());
     }
 
-    public HashMap<Integer, Epic> getEpics() {
-        return epics;
+    // getEpics() возвращает список задач эпиков
+    public ArrayList<Epic> getEpics() {
+        return new ArrayList<>(epics.values());
     }
 
-    public HashMap<Integer, Subtask> getSubtasks() {
-        return subtasks;
+    // getSubtasks() возвращает список всех подзадач
+    public ArrayList<Subtask> getSubtasks() {
+        return new ArrayList<>(subtasks.values());
     }
 
     @Override
