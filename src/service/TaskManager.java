@@ -148,6 +148,25 @@ public class TaskManager {
         return subtasks.remove(requestedID);
     }
 
+    // getSubtaskListByEpic вовзращает список подзадач запрашиваемого эпика
+    public ArrayList<Subtask> getSubtaskListByEpic(int epicID) {
+        ArrayList <Subtask> subtasksListByEpic = new ArrayList<>();
+
+        Epic epic = epics.get(epicID);
+        ArrayList<Integer> subtasksIDListByEpic = epic.getSubtasksID();
+
+        for (Integer subtaskID : subtasks.keySet()) {
+            for (Integer subtaskIDbyEpic : subtasksIDListByEpic) {
+                if (subtaskID.equals(subtaskIDbyEpic)) {
+                    subtasksListByEpic.add(subtasks.get(subtaskIDbyEpic));
+                }
+            }
+        }
+        return subtasksListByEpic;
+    }
+
+    // updateEpicStatus находит эпик по его id и обновляет статус
+    // используется как вспомогательный метод
     private void updateEpicStatus(int epicID) {
         Epic epic = epics.get(epicID);
         ArrayList<Integer> subtasksID = getSubtaskListByEpic(epicID);
