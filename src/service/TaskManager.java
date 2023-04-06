@@ -36,7 +36,8 @@ public class TaskManager {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TaskManager that = (TaskManager) o;
-        return Objects.equals(simpleTasks, that.simpleTasks) && Objects.equals(epics, that.epics) && Objects.equals(subtasks, that.subtasks);
+        return Objects.equals(simpleTasks, that.simpleTasks)
+                && Objects.equals(epics, that.epics) && Objects.equals(subtasks, that.subtasks);
     }
 
     @Override
