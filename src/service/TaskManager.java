@@ -73,6 +73,7 @@ public class TaskManager {
         return simpleTasks.get(requestedID);
     }
 
+    // getEpicTaskByID возвращает эпик по его id
     public SimpleTask getEpicTaskByID(int requestedID) {
         return epics.get(requestedID);
     }
