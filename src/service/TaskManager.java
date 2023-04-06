@@ -69,6 +69,7 @@ public class TaskManager {
         epics.clear();
     }
 
+    // getSimpleTaskByID возращает простую задачу по ее id
     public SimpleTask getSimpleTaskByID(int requestedID) {
         return simpleTasks.get(requestedID);
     }
@@ -78,24 +79,27 @@ public class TaskManager {
         return epics.get(requestedID);
     }
 
+    // Метод getSubtaskByID возвращает ползадачу по ее id
     public Subtask getSubtaskByID(int requestedID) {
         return subtasks.get(requestedID);
     }
 
+    // createSimpleTask создает новую простую задачу и возращает ее
     public SimpleTask createSimpleTask(SimpleTask simpleTask) {
         simpleTask.setId(IDCounter);
         IDCounter++;
         simpleTasks.put(simpleTask.getId(), simpleTask);
         return simpleTask;
     }
-
+    // createEpicTask создает новый эпик и возращает его
     public Epic createEpicTask(Epic epic) {
         epic.setId(IDCounter);
         IDCounter++;
         epics.put(epic.getId(), epic);
         return epic;
     }
-
+    // createSubTask создает новую подзадачу и возращает ее
+    // Также метод добавляет подзадачу к требуемому эпику в списко подзадач и обновляет его статус
     public Subtask createSubtask(Subtask subtask) {
         subtask.setId(IDCounter);
         IDCounter++;
@@ -125,11 +129,13 @@ public class TaskManager {
         updateEpicStatus(subtask.getSubtaskEpicID());
     }
 
-
+    // removeSimpleTaskByID находит задачу по ее id, удаляет ее и возращает удаленный объект
     public SimpleTask removeSimpleTaskByID(int requestedID) {
         return simpleTasks.remove(requestedID);
     }
 
+    // removeEpicTaskByID находит эпик по его id, удаляет его и возращает удаленный объект
+    // Также метод удаляет все подзадачи, относящиеся к этому эпику
     public Epic removeEpicTaskByID(int requestedID) {
         ArrayList<Integer> subtasksID = epics.get(requestedID).getSubtasksID();
         for (Integer subtaskID : subtasksID) {
@@ -138,6 +144,9 @@ public class TaskManager {
         return epics.remove(requestedID);
     }
 
+    // removeSubtaskByID находит подзадачу по ее id, удаляет ее и возращает удаленный объект
+    /* Также метод удаляет подзадачу из списка подзадач эпика, к коториму она принадлежала и
+     обновляет статус эпика.*/
     public Subtask removeSubtaskByID(int requestedID) {
         Subtask requestedSubtask = subtasks.get(requestedID);
 
