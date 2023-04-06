@@ -169,7 +169,7 @@ public class TaskManager {
     // используется как вспомогательный метод
     private void updateEpicStatus(int epicID) {
         Epic epic = epics.get(epicID);
-        ArrayList<Integer> subtasksID = getSubtaskListByEpic(epicID);
+        ArrayList<Integer> subtasksID = epic.getSubtasksID();
 
         if (subtasksID.isEmpty()) {
             epic.setStatus("NEW");
@@ -199,11 +199,6 @@ public class TaskManager {
         } else if (statusInProgress == 0 && statusDone == 0) {
             epic.setStatus("NEW");
         }
-    }
-
-    public ArrayList<Integer> getSubtaskListByEpic(int epicID) {
-        Epic epic = epics.get(epicID);
-        return epic.getSubtasksID();
     }
 }
 
