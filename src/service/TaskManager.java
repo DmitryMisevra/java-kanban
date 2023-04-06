@@ -45,12 +45,14 @@ public class TaskManager {
         return Objects.hash(simpleTasks, epics, subtasks);
     }
 
-    public HashMap<Integer, SimpleTask> clearSimpleTaskList() {
+    // clearSimpleTasklist() очищает мапу с простыми задачами
+    public void clearSimpleTaskList() {
         simpleTasks.clear();
-        return simpleTasks;
     }
 
-    public HashMap<Integer, Subtask> clearSubTaskList() {
+    // clearSubtasklist() очищает мапу с подзадачами
+    // Также метод обновляет списки подзадач и статусы внутри епиков
+    public void clearSubTaskList() {
         subtasks.clear();
         for (Integer epicID : epics.keySet()) {
             Epic epic = epics.get(epicID);
@@ -59,13 +61,12 @@ public class TaskManager {
             epic.setSubtasksID(subtasksID);
             epic.setStatus("NEW");
         }
-        return subtasks;
     }
 
-    public HashMap<Integer, Epic> clearEpicTaskList() {
+    // clearEpicTasklist() очищает мапу с эпиками и подзадачами
+    public void clearEpicTaskList() {
         subtasks.clear();
         epics.clear();
-        return epics;
     }
 
     public SimpleTask getSimpleTaskByID(int requestedID) {
@@ -106,20 +107,21 @@ public class TaskManager {
         return subtask;
     }
 
-    public SimpleTask updateSimpleTask(SimpleTask simpleTask) {
+    // updateSimpleTask обновляет простую задачу
+    public void updateSimpleTask(SimpleTask simpleTask) {
         simpleTasks.put(simpleTask.getId(), simpleTask);
-        return simpleTask;
     }
 
-    public Epic updateEpic(Epic epic) {
+    // updateEpic обновляет эпик
+    public void updateEpic(Epic epic) {
         epics.put(epic.getId(), epic);
-        return epic;
     }
 
-    public SimpleTask updateSubtask(Subtask subtask) {
+    // updateSubtask обновляет подзадачу
+    // Также метод обновляет статус эпика, к которому относится подзадача
+    public void updateSubtask(Subtask subtask) {
         subtasks.put(subtask.getId(), subtask);
         updateEpicStatus(subtask.getSubtaskEpicID());
-        return subtask;
     }
 
 
