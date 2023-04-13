@@ -92,18 +92,21 @@ public class Main {
         System.out.println();
 
 
-        simpleTaskOne.setStatus("IN_PROGRESS");
-        taskManager.updateSimpleTask(simpleTaskOne);
 
-        simpleTaskTwo.setStatus("DONE");
-        taskManager.updateSimpleTask(simpleTaskTwo);
 
-        subtaskOne.setStatus("DONE");
+        // сделаем апдейт статусов для проверки их отображения
+        taskOne.setStatus(Statuses.IN_PROGRESS);
+        taskManager.updateTask(taskOne);
+
+        taskTwo.setStatus(Statuses.DONE);
+        taskManager.updateTask(taskTwo);
+
+        subtaskOne.setStatus(Statuses.DONE);
         taskManager.updateSubtask(subtaskOne);
 
-        subtaskTwo.setStatus("IN_PROGRESS");
+        subtaskTwo.setStatus(Statuses.NEW);
         taskManager.updateSubtask(subtaskTwo);
-        subtaskThree.setStatus("DONE");
+        subtaskThree.setStatus(Statuses.DONE);
         taskManager.updateSubtask(subtaskThree);
 
 
