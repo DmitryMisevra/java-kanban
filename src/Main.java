@@ -35,7 +35,9 @@ public class Main {
         taskManager.createSubtask(subtaskTwo);
         taskManager.createSubtask(subtaskThree);
 
+        System.out.println();
 
+//         проверим состояние с помощью toString()
         System.out.println("Состояние объектов сразу после создания");
         for (Task task : taskManager.getTasks()) {
             System.out.println(task);
@@ -48,6 +50,7 @@ public class Main {
         }
         System.out.println();
 
+//         напечатаем списки подзадач эпиков
         System.out.println("Печать списков подзадач эпиков");
         System.out.println("Эпик 1:");
         System.out.println(taskManager.getSubtaskListByEpic(3));
