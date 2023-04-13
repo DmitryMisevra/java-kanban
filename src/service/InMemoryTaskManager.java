@@ -19,9 +19,6 @@ public class InMemoryTaskManager implements TaskManager {
     private HashMap<Integer, Epic> epics = new HashMap<>();
     private HashMap<Integer, Subtask> subtasks = new HashMap<>();
 
-    // список history хранит историю 10 последних просмотренных задач
-    private ArrayList<Task> history = new ArrayList<>();
-
     // getTasks() возвращает список задач простых задач
     @Override
     public ArrayList<Task> getTasks() {
@@ -38,10 +35,6 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public ArrayList<Subtask> getSubtasks() {
         return new ArrayList<>(subtasks.values());
-    }
-
-    public ArrayList<Task> getHistory() {
-        return history;
     }
 
     @Override
