@@ -17,11 +17,11 @@ public class Main {
         Epic epicOne = new Epic("Эпик №1", "У этого эпика 1 подзадача");
         Epic epicTwo = new Epic("Эпик №2", "У этого эпика 2 подзадачи");
 
-        Subtask subtaskOne = new Subtask("Подзадача 1", "эта подзадача " +
+        Subtask subtaskOne = new Subtask("Подзадача 1.1", "эта подзадача " +
                 "принадлежит эпику №1", 3);
-        Subtask subtaskTwo = new Subtask("Подзадача 1", "эта подзадача " +
+        Subtask subtaskTwo = new Subtask("Подзадача 2.1", "эта подзадача " +
                 "принадлежит эпику №2", 4);
-        Subtask subtaskThree = new Subtask("Подзадача 3", "эта подзадача " +
+        Subtask subtaskThree = new Subtask("Подзадача 2.2", "эта подзадача " +
                 "принадлежит эпику №2", 4);
 
         taskManager.createTask(taskOne);
