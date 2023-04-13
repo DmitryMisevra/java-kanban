@@ -1,0 +1,251 @@
+package service;
+
+import helpers.Managers;
+import helpers.Statuses;
+import module.Epic;
+import module.Task;
+import module.Subtask;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Objects;
+
+public class InMemoryTaskManager implements TaskManager {
+
+    private int IDCounter = 1; // счетчик id
+
+    // для хранения эпиков, задач и подзадач используем HashMap
+    private HashMap<Integer, Task> tasks = new HashMap<>();
+    private HashMap<Integer, Epic> epics = new HashMap<>();
+    private HashMap<Integer, Subtask> subtasks = new HashMap<>();
+
+    // список history хранит историю 10 последних просмотренных задач
+    private ArrayList<Task> history = new ArrayList<>();
+
+    // getTasks() возвращает список задач простых задач
+    @Override
+    public ArrayList<Task> getTasks() {
+        return new ArrayList<>(tasks.values());
+    }
+
+    // getEpics() возвращает список задач эпиков
+    @Override
+    public ArrayList<Epic> getEpics() {
+        return new ArrayList<>(epics.values());
+    }
+
+    // getSubtasks() возвращает список всех подзадач
+    @Override
+    public ArrayList<Subtask> getSubtasks() {
+        return new ArrayList<>(subtasks.values());
+    }
+
+    public ArrayList<Task> getHistory() {
+        return history;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        InMemoryTaskManager that = (InMemoryTaskManager) o;
+        return Objects.equals(tasks, that.tasks)
+                && Objects.equals(epics, that.epics) && Objects.equals(subtasks, that.subtasks);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tasks, epics, subtasks);
+    }
+
+    // clearTasklist() очищает мапу с простыми задачами
+    @Override
+    public void clearTaskList() {
+        tasks.clear();
+    }
+
+    // clearSubtasklist() очищает мапу с подзадачами
+    // Также метод обновляет списки подзадач и статусы внутри епиков
+    @Override
+    public void clearSubTaskList() {
+        subtasks.clear();
+        for (Integer epicID : epics.keySet()) {
+            Epic epic = epics.get(epicID);
+            ArrayList<Integer> subtasksID = epic.getSubtasksID();
+            subtasksID.clear();
+            epic.setSubtasksID(subtasksID);
+            epic.setStatus(Statuses.NEW);
+        }
+    }
+
+    // clearEpicTasklist() очищает мапу с эпиками и подзадачами
+    @Override
+    public void clearEpicTaskList() {
+        subtasks.clear();
+        epics.clear();
+    }
+
+    // getSimpleTaskByID возращает простую задачу по ее id
+    @Override
+    public Task getTaskByID(int requestedID) {
+        HistoryManager historyManager = Managers.getDefaultHistory();
+        historyManager.add(tasks.get(requestedID));
+        return tasks.get(requestedID);
+    }
+
+    // getEpicTaskByID возвращает эпик по его id
+    @Override
+    public Task getEpicTaskByID(int requestedID) {
+        HistoryManager historyManager = Managers.getDefaultHistory();
+        historyManager.add(epics.get(requestedID));
+        return epics.get(requestedID);
+    }
+
+    // Метод getSubtaskByID возвращает ползадачу по ее id
+    @Override
+    public Subtask getSubtaskByID(int requestedID) {
+        HistoryManager historyManager = Managers.getDefaultHistory();
+        historyManager.add(subtasks.get(requestedID));
+        return subtasks.get(requestedID);
+    }
+
+    // createSimpleTask создает новую простую задачу и возращает ее
+    @Override
+    public Task createTask(Task task) {
+        task.setId(IDCounter);
+        IDCounter++;
+        tasks.put(task.getId(), task);
+        return task;
+    }
+    // createEpicTask создает новый эпик и возращает его
+    @Override
+    public Epic createEpicTask(Epic epic) {
+        epic.setId(IDCounter);
+        IDCounter++;
+        epics.put(epic.getId(), epic);
+        return epic;
+    }
+    // createSubTask создает новую подзадачу и возращает ее
+    // Также метод добавляет подзадачу к требуемому эпику в списко подзадач и обновляет его статус
+    @Override
+    public Subtask createSubtask(Subtask subtask) {
+        subtask.setId(IDCounter);
+        IDCounter++;
+        subtasks.put(subtask.getId(), subtask);
+
+        Epic epic = epics.get(subtask.getSubtaskEpicID());
+        ArrayList<Integer> subtasksID = epic.getSubtasksID();
+        subtasksID.add(subtask.getId());
+        updateEpicStatus(epic.getId());
+        return subtask;
+    }
+
+    // updateSimpleTask обновляет простую задачу
+    @Override
+    public void updateTask(Task task) {
+        tasks.put(task.getId(), task);
+    }
+
+    // updateEpic обновляет эпик
+    @Override
+    public void updateEpic(Epic epic) {
+        epics.put(epic.getId(), epic);
+    }
+
+    // updateSubtask обновляет подзадачу
+    // Также метод обновляет статус эпика, к которому относится подзадача
+    @Override
+    public void updateSubtask(Subtask subtask) {
+        subtasks.put(subtask.getId(), subtask);
+        updateEpicStatus(subtask.getSubtaskEpicID());
+    }
+
+    // removeTaskByID находит задачу по ее id, удаляет ее и возращает удаленный объект
+    @Override
+    public Task removeTaskByID(int requestedID) {
+        return tasks.remove(requestedID);
+    }
+
+    // removeEpicTaskByID находит эпик по его id, удаляет его и возращает удаленный объект
+    // Также метод удаляет все подзадачи, относящиеся к этому эпику
+    @Override
+    public Epic removeEpicTaskByID(int requestedID) {
+        ArrayList<Integer> subtasksID = epics.get(requestedID).getSubtasksID();
+        for (Integer subtaskID : subtasksID) {
+            subtasks.remove(subtaskID);
+        }
+        return epics.remove(requestedID);
+    }
+
+    // removeSubtaskByID находит подзадачу по ее id, удаляет ее и возращает удаленный объект
+    /* Также метод удаляет подзадачу из списка подзадач эпика, к коториму она принадлежала и
+     обновляет статус эпика.*/
+    @Override
+    public Subtask removeSubtaskByID(int requestedID) {
+        Subtask requestedSubtask = subtasks.get(requestedID);
+
+        Epic epic = epics.get(requestedSubtask.getSubtaskEpicID());
+        ArrayList<Integer> subtasksID = epic.getSubtasksID();
+        subtasksID.remove(Integer.valueOf(requestedSubtask.getId()));
+        updateEpicStatus(epic.getId());
+
+        return subtasks.remove(requestedID);
+    }
+
+    // getSubtaskListByEpic вовзращает список подзадач запрашиваемого эпика
+    @Override
+    public ArrayList<Subtask> getSubtaskListByEpic(int epicID) {
+        ArrayList <Subtask> subtasksListByEpic = new ArrayList<>();
+
+        Epic epic = epics.get(epicID);
+        ArrayList<Integer> subtasksIDListByEpic = epic.getSubtasksID();
+
+        for (Integer subtaskID : subtasks.keySet()) {
+            for (Integer subtaskIDbyEpic : subtasksIDListByEpic) {
+                if (subtaskID.equals(subtaskIDbyEpic)) {
+                    subtasksListByEpic.add(subtasks.get(subtaskIDbyEpic));
+                }
+            }
+        }
+        return subtasksListByEpic;
+    }
+
+    // updateEpicStatus находит эпик по его id и обновляет статус
+    // используется как вспомогательный метод
+    private void updateEpicStatus(int epicID) {
+        Epic epic = epics.get(epicID);
+        ArrayList<Integer> subtasksID = epic.getSubtasksID();
+
+        if (subtasksID.isEmpty()) {
+            epic.setStatus(Statuses.NEW);
+            return;
+        }
+
+        int statusNew = 0;
+        int statusInProgress = 0;
+        int statusDone = 0;
+        for (Integer subtaskID : subtasksID) {
+            Statuses SubtaskStatus = subtasks.get(subtaskID).getStatus();
+            switch (SubtaskStatus) {
+                case NEW:
+                    statusNew++;
+                    break;
+                case IN_PROGRESS:
+                    statusInProgress++;
+                    break;
+                case DONE:
+                    statusDone++;
+            }
+        }
+        if (statusInProgress > 0) {
+            epic.setStatus(Statuses.IN_PROGRESS);
+        } else if (statusNew == 0 && statusInProgress == 0) {
+            epic.setStatus(Statuses.DONE);
+        } else if (statusInProgress == 0 && statusDone > 0) {
+            epic.setStatus(Statuses.IN_PROGRESS);
+        } else if (statusInProgress == 0 && statusDone == 0) {
+            epic.setStatus(Statuses.NEW);
+        }
+    }
+}
+
