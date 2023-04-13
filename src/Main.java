@@ -61,6 +61,36 @@ public class Main {
         System.out.println(taskManager.getSubtaskListByEpic(3));
         System.out.println("Эпик 2:");
         System.out.println(taskManager.getSubtaskListByEpic(4));
+        System.out.println();
+
+        System.out.println("Вызовем несколько раз подряд задачи");
+        taskManager.getTaskByID(1);
+        taskManager.getTaskByID(2);
+        taskManager.getEpicTaskByID(3);
+        taskManager.getEpicTaskByID(4);
+        taskManager.getSubtaskByID(5);
+        taskManager.getSubtaskByID(6);
+        taskManager.getSubtaskByID(7);
+        taskManager.getTaskByID(1);
+        taskManager.getTaskByID(2);
+        taskManager.getEpicTaskByID(3);
+        taskManager.getSubtaskByID(5);
+        taskManager.getSubtaskByID(5);
+        taskManager.getSubtaskByID(6);
+        taskManager.getSubtaskByID(5);
+        taskManager.getSubtaskByID(6);
+        taskManager.getSubtaskByID(7);
+        taskManager.getEpicTaskByID(3);
+        taskManager.getEpicTaskByID(4);
+
+        System.out.println();
+
+        System.out.println("Распечатаем историю просмотров");
+        for (Task task : historyManager.getHistory()) {
+            System.out.println(task);
+        }
+        System.out.println();
+
 
         simpleTaskOne.setStatus("IN_PROGRESS");
         taskManager.updateSimpleTask(simpleTaskOne);
