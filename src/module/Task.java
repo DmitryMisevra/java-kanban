@@ -8,7 +8,7 @@ public class Task {
     protected int id;
     protected String name;
     protected String description;
-    protected String status = "NEW"; // статус по умолчанию при создании новой задачи
+    protected Statuses status = Statuses.NEW; // статус по умолчанию при создании новой задачи
 
     @Override
     public String toString() {
@@ -41,21 +41,19 @@ public class Task {
         this.description = description;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        if (status.equals("NEW") || status.equals("IN_PROGRESS") || status.equals("DONE")) {
-            this.status = status;
-        }
-    }
-
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Statuses getStatus() {
+        return status;
+    }
+
+    public void setStatus(Statuses status) {
+        this.status = status;
     }
 }
