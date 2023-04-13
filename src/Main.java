@@ -1,13 +1,18 @@
+import helpers.Managers;
+import helpers.Statuses;
 import module.Epic;
 import module.Task;
 import module.Subtask;
+import service.HistoryManager;
 import service.TaskManager;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        TaskManager taskManager = new TaskManager();
+        // создадим объекты необходимых классов;
+        TaskManager taskManager = Managers.getDefault();
+        HistoryManager historyManager = Managers.getDefaultHistory();
 
 
         // создадим задачи трех видов и добавим их в соответствующие списки
