@@ -1,6 +1,8 @@
 package module;
 
-public class SimpleTask {
+import helpers.Statuses;
+
+public class Task {
 
     // Атрибуты класса простой задачи - id, имя, описание, статус
     protected int id;
@@ -10,7 +12,7 @@ public class SimpleTask {
 
     @Override
     public String toString() {
-        return "SimpleTask{" +
+        return "Task{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
@@ -18,7 +20,7 @@ public class SimpleTask {
                 '}';
     }
 
-    public SimpleTask(String name, String description) {
+    public Task(String name, String description) {
         this.name = name;
         this.description = description;
     }

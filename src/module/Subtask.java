@@ -1,6 +1,6 @@
 package module;
 
-public class Subtask extends SimpleTask {
+public class Subtask extends Task {
     // класс подзадачи наследует атрибуты и свойства простой задачи
 
     private int subtaskEpicID; // позадача будет хранить id эпика, которому она принадлежит

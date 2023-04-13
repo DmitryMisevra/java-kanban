@@ -1,5 +1,5 @@
 import module.Epic;
-import module.SimpleTask;
+import module.Task;
 import module.Subtask;
 import service.TaskManager;
 
@@ -9,8 +9,10 @@ public class Main {
 
         TaskManager taskManager = new TaskManager();
 
-        SimpleTask simpleTaskOne = new SimpleTask("Задача №1", "Это простая задача");
-        SimpleTask simpleTaskTwo = new SimpleTask("Задача №2", "Еще одна простая задача");
+
+        // создадим задачи трех видов и добавим их в соответствующие списки
+        Task taskOne = new Task("Задача №1", "Это простая задача");
+        Task taskTwo = new Task("Задача №2", "Еще одна простая задача");
 
         Epic epicOne = new Epic("Эпик №1", "У этого эпика 1 подзадача");
         Epic epicTwo = new Epic("Эпик №2", "У этого эпика 2 подзадачи");
@@ -35,8 +37,8 @@ public class Main {
 
 
         System.out.println("Состояние объектов сразу после создания");
-        for (SimpleTask simpleTask : taskManager.getSimpleTasks()) {
-            System.out.println(simpleTask);
+        for (Task task : taskManager.getTasks()) {
+            System.out.println(task);
         }
         for (Epic epic : taskManager.getEpics()) {
             System.out.println(epic);
@@ -68,8 +70,8 @@ public class Main {
 
 
         System.out.println("Состояние объектов после изменения статусов");
-        for (SimpleTask simpleTask : taskManager.getSimpleTasks()) {
-            System.out.println(simpleTask);
+        for (Task task : taskManager.getTasks()) {
+            System.out.println(task);
         }
         for (Epic epic : taskManager.getEpics()) {
             System.out.println(epic);
@@ -79,13 +81,14 @@ public class Main {
         }
         System.out.println();
 
-        taskManager.removeSimpleTaskByID(1);
+        // удалим некоторые задачи
+        taskManager.removeTaskByID(1);
         taskManager.removeEpicTaskByID(3);
         taskManager.removeSubtaskByID(6);
 
         System.out.println("Состояние объектов после удаления части задач");
-        for (SimpleTask simpleTask : taskManager.getSimpleTasks()) {
-            System.out.println(simpleTask);
+        for (Task task : taskManager.getTasks()) {
+            System.out.println(task);
         }
         for (Epic epic : taskManager.getEpics()) {
             System.out.println(epic);
@@ -95,13 +98,14 @@ public class Main {
         }
         System.out.println();
 
-        taskManager.clearSimpleTaskList();
+        // и наконец очистим все списки с задачами
+        taskManager.clearTaskList();
         taskManager.clearSubTaskList();
         taskManager.clearEpicTaskList();
 
         System.out.println("Состояние объектов после очищения списков");
-        for (SimpleTask simpleTask : taskManager.getSimpleTasks()) {
-            System.out.println(simpleTask);
+        for (Task task : taskManager.getTasks()) {
+            System.out.println(task);
         }
         for (Epic epic : taskManager.getEpics()) {
             System.out.println(epic);

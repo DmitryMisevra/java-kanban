@@ -2,7 +2,7 @@ package service;
 
 import module.Epic;
 import module.Subtask;
-import module.SimpleTask;
+import module.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;

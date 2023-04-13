@@ -2,7 +2,7 @@ package module;
 
 import java.util.ArrayList;
 
-public class Epic extends SimpleTask {
+public class Epic extends Task {
 
     private ArrayList<Integer> subtasksID = new ArrayList<>(); // эпик хранит списко подзадач, которые ему принадлежат
 
