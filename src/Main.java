@@ -24,8 +24,8 @@ public class Main {
         Subtask subtaskThree = new Subtask("Подзадача 3", "эта подзадача " +
                 "принадлежит эпику №2", 4);
 
-        taskManager.createSimpleTask(simpleTaskOne);
-        taskManager.createSimpleTask(simpleTaskTwo);
+        taskManager.createTask(taskOne);
+        taskManager.createTask(taskTwo);
 
         taskManager.createEpicTask(epicOne);
         taskManager.createEpicTask(epicTwo);
