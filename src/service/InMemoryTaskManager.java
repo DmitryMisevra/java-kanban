@@ -10,7 +10,8 @@ import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    private int IDCounter = 1; // счетчик id
+    private int idCounter = 1; /* счетчик id */
+    HistoryManager historyManager = Managers.getDefaultHistory();
 
     /* для хранения эпиков, задач и подзадач используем HashMap */
     private Map<Integer, Task> tasks = new HashMap<>();
@@ -104,16 +105,16 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task createTask(Task task) {
-        task.setId(IDCounter);
-        IDCounter++;
+        task.setId(idCounter);
+        idCounter++;
         tasks.put(task.getId(), task);
         return task;
     }
     /* createEpicTask создает новый эпик и возращает его */
     @Override
     public Epic createEpicTask(Epic epic) {
-        epic.setId(IDCounter);
-        IDCounter++;
+        epic.setId(idCounter);
+        idCounter++;
         epics.put(epic.getId(), epic);
         return epic;
     }
@@ -122,8 +123,8 @@ public class InMemoryTaskManager implements TaskManager {
     список подзадач и обновляет его статус */
     @Override
     public Subtask createSubtask(Subtask subtask) {
-        subtask.setId(IDCounter);
-        IDCounter++;
+        subtask.setId(idCounter);
+        idCounter++;
         subtasks.put(subtask.getId(), subtask);
 
         Epic epic = epics.get(subtask.getSubtaskEpicID());
