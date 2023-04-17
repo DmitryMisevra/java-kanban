@@ -4,11 +4,11 @@ import helpers.Statuses;
 
 public class Task {
 
-    // Атрибуты класса простой задачи - id, имя, описание, статус
+    /* Атрибуты класса простой задачи - id, имя, описание, статус */
     protected int id;
     protected String name;
     protected String description;
-    protected Statuses status = Statuses.NEW; // статус по умолчанию при создании новой задачи
+    protected Statuses status = Statuses.NEW; /* статус по умолчанию при создании новой задачи */
 
     @Override
     public String toString() {
