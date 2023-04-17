@@ -1,16 +1,18 @@
 package module;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Epic extends Task {
 
-    private ArrayList<Integer> subtasksID = new ArrayList<>(); // эпик хранит списко подзадач, которые ему принадлежат
+    private List<Integer> subtasksID = new ArrayList<>(); /* эпик хранит списко подзадач, которые ему
+    принадлежат */
 
-    public ArrayList<Integer> getSubtasksID() {
+    public List<Integer> getSubtasksID() {
         return subtasksID;
     }
 
-    public void setSubtasksID(ArrayList<Integer> subtasksID) {
+    public void setSubtasksID(List<Integer> subtasksID) {
         this.subtasksID = subtasksID;
     }
 

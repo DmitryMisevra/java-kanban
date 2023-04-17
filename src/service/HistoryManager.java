@@ -2,7 +2,7 @@ package service;
 
 import module.Task;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface HistoryManager {
 
@@ -10,6 +10,6 @@ public interface HistoryManager {
      последнюю вызванную задачу*/
     void add(Task task);
 
-    // метод getHistory() возвращает список с историей просмотров последних 10 задач
-    ArrayList<Task> getHistory();
+    /* метод getHistory() возвращает список с историей просмотров последних 10 задач */
+    List<Task> getHistory();
 }

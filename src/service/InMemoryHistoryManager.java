@@ -2,12 +2,13 @@ package service;
 
 import module.Task;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-    // список history хранит историю 10 последних просмотренных задач
-    private static ArrayList<Task> history = new ArrayList<>();
+    /* список history хранит историю 10 последних просмотренных задач */
+    private static List<Task> history = new LinkedList<>();
 
     @Override
     public void add(Task task) {
@@ -18,7 +19,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     @Override
-    public ArrayList<Task> getHistory() {
+    public List<Task> getHistory() {
         return history;
     }
 

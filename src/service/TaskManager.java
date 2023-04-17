@@ -4,18 +4,18 @@ import module.Epic;
 import module.Subtask;
 import module.Task;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface TaskManager {
 
-    // getTasks() возвращает список задач простых задач
-    ArrayList<Task> getTasks();
+    /* getTasks() возвращает список задач простых задач */
+    List<Task> getTasks();
 
-    // getEpics() возвращает список задач эпиков
-    ArrayList<Epic> getEpics();
+    /* getEpics() возвращает список задач эпиков */
+    List<Epic> getEpics();
 
-    // getSubtasks() возвращает список всех подзадач
-    ArrayList<Subtask> getSubtasks();
+    /* getSubtasks() возвращает список всех подзадач */
+    List<Subtask> getSubtasks();
 
     // clearTasklist() очищает мапу с простыми задачами
     void clearTaskList();
@@ -68,7 +68,11 @@ public interface TaskManager {
      обновляет статус эпика.*/
     Subtask removeSubtaskByID(int requestedID);
 
-    // getSubtaskListByEpic вовзращает список подзадач запрашиваемого эпика
-    ArrayList<Subtask> getSubtaskListByEpic(int epicID);
+    /* getSubtaskListByEpic вовзращает список подзадач запрашиваемого эпика */
+    List<Subtask> getSubtaskListByEpic(int epicID);
+
+
+    /* метод getHistory() возвращает список с историей просмотров последних 10 задач */
+    List<Task> getHistory();
 }
 

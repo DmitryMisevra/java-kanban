@@ -6,34 +6,32 @@ import module.Epic;
 import module.Task;
 import module.Subtask;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
 
     private int IDCounter = 1; // счетчик id
 
-    // для хранения эпиков, задач и подзадач используем HashMap
-    private HashMap<Integer, Task> tasks = new HashMap<>();
-    private HashMap<Integer, Epic> epics = new HashMap<>();
-    private HashMap<Integer, Subtask> subtasks = new HashMap<>();
+    /* для хранения эпиков, задач и подзадач используем HashMap */
+    private Map<Integer, Task> tasks = new HashMap<>();
+    private Map<Integer, Epic> epics = new HashMap<>();
+    private Map<Integer, Subtask> subtasks = new HashMap<>();
 
     // getTasks() возвращает список задач простых задач
     @Override
-    public ArrayList<Task> getTasks() {
+    public List<Task> getTasks() {
         return new ArrayList<>(tasks.values());
     }
 
     // getEpics() возвращает список задач эпиков
     @Override
-    public ArrayList<Epic> getEpics() {
+    public List<Epic> getEpics() {
         return new ArrayList<>(epics.values());
     }
 
     // getSubtasks() возвращает список всех подзадач
     @Override
-    public ArrayList<Subtask> getSubtasks() {
+    public List<Subtask> getSubtasks() {
         return new ArrayList<>(subtasks.values());
     }
 
@@ -64,7 +62,7 @@ public class InMemoryTaskManager implements TaskManager {
         subtasks.clear();
         for (Integer epicID : epics.keySet()) {
             Epic epic = epics.get(epicID);
-            ArrayList<Integer> subtasksID = epic.getSubtasksID();
+            List<Integer> subtasksID = epic.getSubtasksID();
             subtasksID.clear();
             epic.setSubtasksID(subtasksID);
             epic.setStatus(Statuses.NEW);
@@ -127,7 +125,7 @@ public class InMemoryTaskManager implements TaskManager {
         subtasks.put(subtask.getId(), subtask);
 
         Epic epic = epics.get(subtask.getSubtaskEpicID());
-        ArrayList<Integer> subtasksID = epic.getSubtasksID();
+        List<Integer> subtasksID = epic.getSubtasksID();
         subtasksID.add(subtask.getId());
         updateEpicStatus(epic.getId());
         return subtask;
@@ -163,7 +161,8 @@ public class InMemoryTaskManager implements TaskManager {
     // Также метод удаляет все подзадачи, относящиеся к этому эпику
     @Override
     public Epic removeEpicTaskByID(int requestedID) {
-        ArrayList<Integer> subtasksID = epics.get(requestedID).getSubtasksID();
+        Epic removedEpic = epics.remove(requestedID);
+        List<Integer> subtasksID = removedEpic.getSubtasksID();
         for (Integer subtaskID : subtasksID) {
             subtasks.remove(subtaskID);
         }
@@ -178,7 +177,7 @@ public class InMemoryTaskManager implements TaskManager {
         Subtask requestedSubtask = subtasks.get(requestedID);
 
         Epic epic = epics.get(requestedSubtask.getSubtaskEpicID());
-        ArrayList<Integer> subtasksID = epic.getSubtasksID();
+        List<Integer> subtasksID = epic.getSubtasksID();
         subtasksID.remove(Integer.valueOf(requestedSubtask.getId()));
         updateEpicStatus(epic.getId());
 
@@ -187,11 +186,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     // getSubtaskListByEpic вовзращает список подзадач запрашиваемого эпика
     @Override
-    public ArrayList<Subtask> getSubtaskListByEpic(int epicID) {
-        ArrayList <Subtask> subtasksListByEpic = new ArrayList<>();
+    public List<Subtask> getSubtaskListByEpic(int epicID) {
+        List <Subtask> subtasksListByEpic = new ArrayList<>();
 
         Epic epic = epics.get(epicID);
-        ArrayList<Integer> subtasksIDListByEpic = epic.getSubtasksID();
+        List<Integer> subtasksIDListByEpic = epic.getSubtasksID();
 
         for (Integer subtaskID : subtasks.keySet()) {
             for (Integer subtaskIDbyEpic : subtasksIDListByEpic) {
@@ -207,7 +206,7 @@ public class InMemoryTaskManager implements TaskManager {
     // используется как вспомогательный метод
     private void updateEpicStatus(int epicID) {
         Epic epic = epics.get(epicID);
-        ArrayList<Integer> subtasksID = epic.getSubtasksID();
+        List<Integer> subtasksID = epic.getSubtasksID();
 
         if (subtasksID.isEmpty()) {
             epic.setStatus(Statuses.NEW);
