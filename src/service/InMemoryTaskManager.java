@@ -202,8 +202,12 @@ public class InMemoryTaskManager implements TaskManager {
         return subtasksListByEpic;
     }
 
-    // updateEpicStatus находит эпик по его id и обновляет статус
-    // используется как вспомогательный метод
+    public List<Task> getHistory() {
+        return historyManager.getHistory();
+    }
+
+    /* updateEpicStatus находит эпик по его id и обновляет статус
+    Используется как вспомогательный метод */
     private void updateEpicStatus(int epicID) {
         Epic epic = epics.get(epicID);
         List<Integer> subtasksID = epic.getSubtasksID();
