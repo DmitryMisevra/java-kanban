@@ -80,7 +80,6 @@ public class InMemoryTaskManager implements TaskManager {
     /* getSimpleTaskByID возращает простую задачу по ее id */
     @Override
     public Task getTaskByID(int requestedID) {
-        HistoryManager historyManager = Managers.getDefaultHistory();
         historyManager.add(tasks.get(requestedID));
         return tasks.get(requestedID);
     }
@@ -88,7 +87,6 @@ public class InMemoryTaskManager implements TaskManager {
     /* getEpicTaskByID возвращает эпик по его id */
     @Override
     public Task getEpicTaskByID(int requestedID) {
-        HistoryManager historyManager = Managers.getDefaultHistory();
         historyManager.add(epics.get(requestedID));
         return epics.get(requestedID);
     }
@@ -96,7 +94,6 @@ public class InMemoryTaskManager implements TaskManager {
     /* Метод getSubtaskByID возвращает ползадачу по ее id */
     @Override
     public Subtask getSubtaskByID(int requestedID) {
-        HistoryManager historyManager = Managers.getDefaultHistory();
         historyManager.add(subtasks.get(requestedID));
         return subtasks.get(requestedID);
     }
