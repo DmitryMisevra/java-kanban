@@ -17,55 +17,56 @@ public interface TaskManager {
     /* getSubtasks() возвращает список всех подзадач */
     List<Subtask> getSubtasks();
 
-    // clearTasklist() очищает мапу с простыми задачами
+    /* clearTasklist() очищает мапу с простыми задачами */
     void clearTaskList();
 
-    // clearSubtasklist() очищает мапу с подзадачами
-    // Также метод обновляет списки подзадач и статусы внутри епиков
+    /* clearSubtasklist() очищает мапу с подзадачами */
+    /* Также метод обновляет списки подзадач и статусы внутри епиков */
     void clearSubTaskList();
 
-    // clearEpicTasklist() очищает мапу с эпиками и подзадачами
+    /* clearEpicTasklist() очищает мапу с эпиками и подзадачами */
     void clearEpicTaskList();
 
-    // getTaskByID возращает простую задачу по ее id
+    /* getTaskByID возращает простую задачу по ее id */
     Task getTaskByID(int requestedID);
 
-    // getEpicTaskByID возвращает эпик по его id
+    /* getEpicTaskByID возвращает эпик по его id */
     Task getEpicTaskByID(int requestedID);
 
-    // Метод getSubtaskByID возвращает ползадачу по ее id
+    /* Метод getSubtaskByID возвращает ползадачу по ее id */
     Subtask getSubtaskByID(int requestedID);
 
-    // createTask создает новую простую задачу и возращает ее
+    /* createTask создает новую простую задачу и возращает ее */
     Task createTask(Task task);
 
-    // createEpicTask создает новый эпик и возращает его
+    /* createEpicTask создает новый эпик и возращает его */
     Epic createEpicTask(Epic epic);
 
-    // createSubTask создает новую подзадачу и возращает ее
-    // Также метод добавляет подзадачу к требуемому эпику в списко подзадач и обновляет его статус
+    /* createSubTask создает новую подзадачу и возращает ее
+    Также метод добавляет подзадачу к требуемому эпику в
+    списко подзадач и обновляет его статус */
     Subtask createSubtask(Subtask subtask);
 
-    // updateTask обновляет простую задачу
+    /* updateTask обновляет простую задачу */
     void updateTask(Task task);
 
-    // updateEpic обновляет эпик
+    /* updateEpic обновляет эпик */
     void updateEpic(Epic epic);
 
-    // updateSubtask обновляет подзадачу
-    // Также метод обновляет статус эпика, к которому относится подзадача
+    /* updateSubtask обновляет подзадачу
+    Также метод обновляет статус эпика, к которому относится подзадача */
     void updateSubtask(Subtask subtask);
 
-    // removeTaskByID находит задачу по ее id, удаляет ее и возращает удаленный объект
+    /* removeTaskByID находит задачу по ее id, удаляет ее и возращает удаленный объект */
     Task removeTaskByID(int requestedID);
 
-    // removeEpicTaskByID находит эпик по его id, удаляет его и возращает удаленный объект
-    // Также метод удаляет все подзадачи, относящиеся к этому эпику
+    /* removeEpicTaskByID находит эпик по его id, удаляет его и возращает удаленный объект
+    Также метод удаляет все подзадачи, относящиеся к этому эпику */
     Epic removeEpicTaskByID(int requestedID);
 
-    // removeSubtaskByID находит подзадачу по ее id, удаляет ее и возращает удаленный объект
-    /* Также метод удаляет подзадачу из списка подзадач эпика, к коториму она принадлежала и
-     обновляет статус эпика.*/
+    /* removeSubtaskByID находит подзадачу по ее id, удаляет ее и возращает удаленный объект
+    Также метод удаляет подзадачу из списка подзадач эпика, к коториму она принадлежала и
+    обновляет статус эпика */
     Subtask removeSubtaskByID(int requestedID);
 
     /* getSubtaskListByEpic вовзращает список подзадач запрашиваемого эпика */
@@ -75,4 +76,6 @@ public interface TaskManager {
     /* метод getHistory() возвращает список с историей просмотров последних 10 задач */
     List<Task> getHistory();
 }
+
+
 

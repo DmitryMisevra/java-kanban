@@ -10,12 +10,12 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // создадим объекты необходимых классов;
+        /* создадим объекты необходимых классов */
         TaskManager taskManager = Managers.getDefault();
         HistoryManager historyManager = Managers.getDefaultHistory();
 
 
-        // создадим задачи трех видов и добавим их в соответствующие списки
+        /* создадим задачи трех видов и добавим их в соответствующие списки */
         Task taskOne = new Task("Задача №1", "Это простая задача");
         Task taskTwo = new Task("Задача №2", "Еще одна простая задача");
 
@@ -42,7 +42,7 @@ public class Main {
 
         System.out.println();
 
-//         проверим состояние с помощью toString()
+        /* проверим состояние с помощью toString() */
         System.out.println("Состояние объектов сразу после создания");
         for (Task task : taskManager.getTasks()) {
             System.out.println(task);
@@ -55,7 +55,7 @@ public class Main {
         }
         System.out.println();
 
-//         напечатаем списки подзадач эпиков
+        /* напечатаем списки подзадач эпиков */
         System.out.println("Печать списков подзадач эпиков");
         System.out.println("Эпик 1:");
         System.out.println(taskManager.getSubtaskListByEpic(3));
@@ -94,7 +94,7 @@ public class Main {
 
 
 
-        // сделаем апдейт статусов для проверки их отображения
+        /* сделаем апдейт статусов для проверки их отображения */
         taskOne.setStatus(Statuses.IN_PROGRESS);
         taskManager.updateTask(taskOne);
 
@@ -122,7 +122,7 @@ public class Main {
         }
         System.out.println();
 
-        // удалим некоторые задачи
+        /* удалим некоторые задачи */
         taskManager.removeTaskByID(1);
         taskManager.removeEpicTaskByID(3);
         taskManager.removeSubtaskByID(6);
@@ -139,7 +139,7 @@ public class Main {
         }
         System.out.println();
 
-        // и наконец очистим все списки с задачами
+        /* и наконец очистим все списки с задачами */
         taskManager.clearTaskList();
         taskManager.clearSubTaskList();
         taskManager.clearEpicTaskList();

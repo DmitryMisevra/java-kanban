@@ -7,8 +7,8 @@ import service.TaskManager;
 
 public class Managers {
 
-/*     метод getDefault() будет возвращать необходимый субкласс TaskManager. пока по умолчанию поставил
-     InMemoryTaskManager(); */
+    /* метод getDefault() будет возвращать необходимый субкласс TaskManager. Пока по умолчанию поставил
+     InMemoryTaskManager() */
     public static TaskManager getDefault() {
         return new InMemoryTaskManager();
     }

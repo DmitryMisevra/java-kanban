@@ -1,9 +1,10 @@
 package module;
 
 public class Subtask extends Task {
-    // класс подзадачи наследует атрибуты и свойства простой задачи
 
-    private int subtaskEpicID; // позадача будет хранить id эпика, которому она принадлежит
+    /* класс подзадачи наследует атрибуты и свойства простой задачи */
+
+    private int subtaskEpicID; /* позадача будет хранить id эпика, которому она принадлежит */
 
     public int getSubtaskEpicID() {
         return subtaskEpicID;
@@ -13,7 +14,7 @@ public class Subtask extends Task {
         this.subtaskEpicID = subtaskEpicID;
     }
 
-    // в параметр конструктора добавлено поле с id эпика
+    /* в параметр конструктора добавлено поле с id эпика */
     public Subtask(String name, String description, int subtaskEpicID) {
         super(name, description);
         this.subtaskEpicID = subtaskEpicID;
