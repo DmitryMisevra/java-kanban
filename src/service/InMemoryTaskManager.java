@@ -166,7 +166,7 @@ public class InMemoryTaskManager implements TaskManager {
         for (Integer subtaskID : subtasksID) {
             subtasks.remove(subtaskID);
         }
-        return epics.remove(requestedID);
+        return removedEpic;
     }
 
     /* removeSubtaskByID находит подзадачу по ее id, удаляет ее и возращает удаленный объект
