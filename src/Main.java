@@ -3,7 +3,6 @@ import helpers.Statuses;
 import module.Epic;
 import module.Task;
 import module.Subtask;
-import service.HistoryManager;
 import service.TaskManager;
 
 public class Main {
@@ -12,8 +11,6 @@ public class Main {
 
         /* создадим объекты необходимых классов */
         TaskManager taskManager = Managers.getDefault();
-        HistoryManager historyManager = Managers.getDefaultHistory();
-
 
         /* создадим задачи трех видов и добавим их в соответствующие списки */
         Task taskOne = new Task("Задача №1", "Это простая задача");
@@ -86,7 +83,7 @@ public class Main {
         System.out.println();
 
         System.out.println("Распечатаем историю просмотров");
-        for (Task task : historyManager.getHistory()) {
+        for (Task task : taskManager.getHistory()) {
             System.out.println(task);
         }
         System.out.println();
