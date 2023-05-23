@@ -10,6 +10,9 @@ public interface HistoryManager {
      последнюю вызванную задачу */
     void add(Task task);
 
+    /* Вспомогательный метод remove() удаляет задачу из истории просмотра */
+    void remove(int id);
+
     /* метод getHistory() возвращает список с историей просмотров последних 10 задач */
     List<Task> getHistory();
 }

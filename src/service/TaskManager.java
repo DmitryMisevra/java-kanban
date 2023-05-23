@@ -33,18 +33,18 @@ public interface TaskManager {
     /* getEpicTaskByID возвращает эпик по его id */
     Task getEpicTaskByID(int requestedID);
 
-    /* Метод getSubtaskByID возвращает ползадачу по ее id */
+    /* Метод getSubtaskByID возвращает подзадачу по ее id */
     Subtask getSubtaskByID(int requestedID);
 
-    /* createTask создает новую простую задачу и возращает ее */
+    /* createTask создает новую простую задачу и возвращает ее */
     Task createTask(Task task);
 
-    /* createEpicTask создает новый эпик и возращает его */
+    /* createEpicTask создает новый эпик и возвращает его */
     Epic createEpicTask(Epic epic);
 
-    /* createSubTask создает новую подзадачу и возращает ее
+    /* createSubTask создает новую подзадачу и возвращает ее
     Также метод добавляет подзадачу к требуемому эпику в
-    списко подзадач и обновляет его статус */
+    список подзадач и обновляет его статус */
     Subtask createSubtask(Subtask subtask);
 
     /* updateTask обновляет простую задачу */
@@ -57,19 +57,19 @@ public interface TaskManager {
     Также метод обновляет статус эпика, к которому относится подзадача */
     void updateSubtask(Subtask subtask);
 
-    /* removeTaskByID находит задачу по ее id, удаляет ее и возращает удаленный объект */
+    /* removeTaskByID находит задачу по ее id, удаляет ее и возвращает удаленный объект */
     Task removeTaskByID(int requestedID);
 
-    /* removeEpicTaskByID находит эпик по его id, удаляет его и возращает удаленный объект
+    /* removeEpicTaskByID находит эпик по его id, удаляет его и возвращает удаленный объект
     Также метод удаляет все подзадачи, относящиеся к этому эпику */
     Epic removeEpicTaskByID(int requestedID);
 
-    /* removeSubtaskByID находит подзадачу по ее id, удаляет ее и возращает удаленный объект
-    Также метод удаляет подзадачу из списка подзадач эпика, к коториму она принадлежала и
+    /* removeSubtaskByID находит подзадачу по ее id, удаляет ее и возвращает удаленный объект
+    Также метод удаляет подзадачу из списка подзадач эпика, к которому она принадлежала и
     обновляет статус эпика */
     Subtask removeSubtaskByID(int requestedID);
 
-    /* getSubtaskListByEpic вовзращает список подзадач запрашиваемого эпика */
+    /* getSubtaskListByEpic возвращает список подзадач запрашиваемого эпика */
     List<Subtask> getSubtaskListByEpic(int epicID);
 
 
