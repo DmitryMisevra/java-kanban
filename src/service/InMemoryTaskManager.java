@@ -154,6 +154,7 @@ public class InMemoryTaskManager implements TaskManager {
     /* removeTaskByID находит задачу по ее id, удаляет ее и возвращает удаленный объект */
     @Override
     public Task removeTaskByID(int requestedID) {
+        historyManager.remove(requestedID);
         return tasks.remove(requestedID);
     }
 
@@ -165,7 +166,9 @@ public class InMemoryTaskManager implements TaskManager {
         List<Integer> subtasksID = removedEpic.getSubtasksID();
         for (Integer subtaskID : subtasksID) {
             subtasks.remove(subtaskID);
+            historyManager.remove(subtaskID);
         }
+        historyManager.remove(requestedID);
         return removedEpic;
     }
 
@@ -180,6 +183,8 @@ public class InMemoryTaskManager implements TaskManager {
         List<Integer> subtasksID = epic.getSubtasksID();
         subtasksID.remove(Integer.valueOf(requestedSubtask.getId()));
         updateEpicStatus(epic.getId());
+
+        historyManager.remove(requestedID);
 
         return subtasks.remove(requestedID);
     }
