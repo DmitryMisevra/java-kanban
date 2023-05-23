@@ -16,15 +16,15 @@ public class Main {
         Task taskOne = new Task("Задача №1", "Это простая задача");
         Task taskTwo = new Task("Задача №2", "Еще одна простая задача");
 
-        Epic epicOne = new Epic("Эпик №1", "У этого эпика 1 подзадача");
-        Epic epicTwo = new Epic("Эпик №2", "У этого эпика 2 подзадачи");
+        Epic epicOne = new Epic("Эпик №1", "У этого эпика 3 подзадачи");
+        Epic epicTwo = new Epic("Эпик №2", "У этого эпика нет подзадач");
 
         Subtask subtaskOne = new Subtask("Подзадача 1.1", "эта подзадача " +
                 "принадлежит эпику №1", 3);
-        Subtask subtaskTwo = new Subtask("Подзадача 2.1", "эта подзадача " +
-                "принадлежит эпику №2", 4);
-        Subtask subtaskThree = new Subtask("Подзадача 2.2", "эта подзадача " +
-                "принадлежит эпику №2", 4);
+        Subtask subtaskTwo = new Subtask("Подзадача 1.2", "эта подзадача " +
+                "принадлежит эпику №1", 3);
+        Subtask subtaskThree = new Subtask("Подзадача 1.3", "эта подзадача " +
+                "принадлежит эпику №1", 3);
 
         taskManager.createTask(taskOne);
         taskManager.createTask(taskTwo);
@@ -88,7 +88,44 @@ public class Main {
         }
         System.out.println();
 
+        System.out.println("Еще раз вызовем несколько раз подряд задачи");
 
+
+        taskManager.getEpicTaskByID(4);
+        taskManager.getEpicTaskByID(4);
+        taskManager.getEpicTaskByID(4);
+        taskManager.getEpicTaskByID(3);
+        taskManager.getEpicTaskByID(3);
+        taskManager.getSubtaskByID(6);
+        taskManager.getSubtaskByID(6);
+        taskManager.getSubtaskByID(5);
+        taskManager.getSubtaskByID(5);
+        taskManager.getSubtaskByID(6);
+        taskManager.getSubtaskByID(5);
+        taskManager.getEpicTaskByID(3);
+        taskManager.getEpicTaskByID(4);
+        taskManager.getTaskByID(2);
+        taskManager.getTaskByID(2);
+        taskManager.getTaskByID(1);
+        taskManager.getTaskByID(1);
+        taskManager.getTaskByID(2);
+        taskManager.getTaskByID(1);
+        taskManager.getTaskByID(2);
+        taskManager.getTaskByID(1);
+        taskManager.getSubtaskByID(7);
+        taskManager.getSubtaskByID(7);
+        taskManager.getSubtaskByID(5);
+        taskManager.getSubtaskByID(5);
+        taskManager.getSubtaskByID(6);
+        taskManager.getSubtaskByID(6);
+        taskManager.getEpicTaskByID(4);
+        taskManager.getEpicTaskByID(3);
+
+        System.out.println("Распечатаем еще раз историю просмотров");
+        for (Task task : taskManager.getHistory()) {
+            System.out.println(task);
+        }
+        System.out.println();
 
 
         /* сделаем апдейт статусов для проверки их отображения */
@@ -122,7 +159,12 @@ public class Main {
         /* удалим некоторые задачи */
         taskManager.removeTaskByID(1);
         taskManager.removeEpicTaskByID(3);
-        taskManager.removeSubtaskByID(6);
+
+        System.out.println("Распечатаем еще раз историю просмотров");
+        for (Task task : taskManager.getHistory()) {
+            System.out.println(task);
+        }
+        System.out.println();
 
         System.out.println("Состояние объектов после удаления части задач");
         for (Task task : taskManager.getTasks()) {
