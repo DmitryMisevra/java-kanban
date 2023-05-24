@@ -76,7 +76,6 @@ public class InMemoryHistoryManager implements HistoryManager {
         if (historyMap.containsKey(id)) {
             history.removeNode(historyMap.get(id));
         }
-
         historyMap.put(id, history.linkLast(task));
     }
 
