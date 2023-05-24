@@ -58,15 +58,12 @@ public class InMemoryHistoryManager implements HistoryManager {
 
             /* далее итерируемся по CustomLinkedList, переходя по ссылкам next предыдущей ноды, пока не пройдем по
             всему списку */
-            for (int i = 1; i < size; i++) {
-                Task previousTask = tasks.get(i - 1);
-                Node <Task> previousNode = historyMap.get(previousTask.getId());
-                if (previousNode.next.task == null) {
-                    break;
-                } else {
-                    tasks.add(previousNode.next.task);
-                }
-            }
+            Node<T> currentNode = head;
+            do {
+                tasks.add(currentNode.task);
+                currentNode = currentNode.next;
+            } while (currentNode.next != null);
+
             return tasks;
         }
     }
