@@ -53,9 +53,8 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
 
         /* метод getTasks() формирует ArrayList из задач, хранящихся в CustomLinkedList */
-        public ArrayList<Task> getTasks() {
-            ArrayList<Task> tasks = new ArrayList<>();
-            tasks.add(head.task); /* сначала добавляем голову */
+        public List<Task> getTasks() {
+            List<Task> tasks = new ArrayList<>();
 
             /* далее итерируемся по CustomLinkedList, переходя по ссылкам next предыдущей ноды, пока не пройдем по
             всему списку */
@@ -76,12 +75,12 @@ public class InMemoryHistoryManager implements HistoryManager {
     задачу в конец списка */
     @Override
     public void add(Task task) {
-        for (Integer id : historyMap.keySet()) {
-            if (id == task.getId()) {
-                history.removeNode(historyMap.get(id));
-            }
+        int id = task.getId();
+        if (historyMap.containsKey(id)) {
+            history.removeNode(historyMap.get(id));
         }
-        historyMap.put(task.getId(), history.linkLast(task));
+
+        historyMap.put(id, history.linkLast(task));
     }
 
     @Override
