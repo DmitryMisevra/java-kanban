@@ -1,10 +1,19 @@
 package module;
 
+import helpers.Types;
+
 public class Subtask extends Task {
 
     /* класс подзадачи наследует атрибуты и свойства простой задачи */
 
     private int subtaskEpicID; /* позадача будет хранить id эпика, которому она принадлежит */
+
+    private final Types type = Types.SUBTASK;
+
+    @Override
+    public Types getType() {
+        return type;
+    }
 
     public int getSubtaskEpicID() {
         return subtaskEpicID;

@@ -1,6 +1,7 @@
 package module;
 
 import helpers.Statuses;
+import helpers.Types;
 
 public class Task {
 
@@ -9,6 +10,12 @@ public class Task {
     protected String name;
     protected String description;
     protected Statuses status = Statuses.NEW; /* статус по умолчанию при создании новой задачи */
+
+    private final Types type = Types.TASK;
+
+    public Types getType() {
+        return type;
+    }
 
     @Override
     public String toString() {
