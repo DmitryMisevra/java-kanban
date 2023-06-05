@@ -10,13 +10,13 @@ import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    private int idCounter = 1; /* счетчик id */
-    HistoryManager historyManager = Managers.getDefaultHistory();
+    protected int idCounter = 1; /* счетчик id */
+    protected HistoryManager historyManager = Managers.getDefaultHistory();
 
     /* для хранения эпиков, задач и подзадач используем HashMap */
-    private Map<Integer, Task> tasks = new HashMap<>();
-    private Map<Integer, Epic> epics = new HashMap<>();
-    private Map<Integer, Subtask> subtasks = new HashMap<>();
+    protected Map<Integer, Task> tasks = new HashMap<>();
+    protected Map<Integer, Epic> epics = new HashMap<>();
+    protected Map<Integer, Subtask> subtasks = new HashMap<>();
 
     /* getTasks() возвращает список задач простых задач */
     @Override
