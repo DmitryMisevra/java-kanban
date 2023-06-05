@@ -58,12 +58,13 @@ public class InMemoryHistoryManager implements HistoryManager {
 
             /* далее итерируемся по CustomLinkedList, переходя по ссылкам next предыдущей ноды, пока не пройдем по
             всему списку */
-            Node<T> currentNode = head;
-            do {
-                tasks.add(currentNode.task);
-                currentNode = currentNode.next;
-            } while (currentNode.next != null);
-
+            if (head != null) {
+                Node<T> currentNode = head;
+                do {
+                    tasks.add(currentNode.task);
+                    currentNode = currentNode.next;
+                } while (currentNode != null);
+            }
             return tasks;
         }
     }
