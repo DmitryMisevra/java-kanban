@@ -1,15 +1,24 @@
 package module;
 
+import helpers.Types;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Epic extends Task {
 
-    private List<Integer> subtasksID = new ArrayList<>(); /* эпик хранит списко подзадач, которые ему
+    private final Types type = Types.EPIC;
+
+    private List<Integer> subtasksID = new ArrayList<>(); /* эпик хранит список подзадач, которые ему
     принадлежат */
 
     public List<Integer> getSubtasksID() {
         return subtasksID;
+    }
+
+    @Override
+    public Types getType() {
+        return type;
     }
 
     public void setSubtasksID(List<Integer> subtasksID) {
