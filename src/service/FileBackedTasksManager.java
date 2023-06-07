@@ -25,11 +25,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                 Files.createFile(path);
             }
         } catch (IOException e) {
-            try {
-                throw new ManagerSaveException("Ошибка при создании файла");
-            } catch (ManagerSaveException ex) {
-                System.out.println(ex.getMessage());
-            }
+                throw new ManagerSaveException("Ошибка при создании файла: " + e.getMessage());
         }
     }
 
@@ -91,11 +87,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                 }
             }
         } catch (IOException e) {
-            try {
-                throw new ManagerSaveException("Ошибка чтения из файла");
-            } catch (ManagerSaveException ex) {
-                System.out.println(ex.getMessage());
-            }
+                throw new ManagerSaveException("Ошибка чтения из файла: " + e.getMessage());
         }
         return fileBackedTasksManager;
     }
