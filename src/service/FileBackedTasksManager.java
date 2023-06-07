@@ -68,7 +68,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                     fileBackedTasksManager.subtasks.put(task.getId(), (Subtask) task);
                 } else if (task instanceof Epic) {
                     fileBackedTasksManager.epics.put(task.getId(), (Epic) task);
-                } else {
+                } else if (task != null) {
                     fileBackedTasksManager.tasks.put(task.getId(), task);
                 }
             }
