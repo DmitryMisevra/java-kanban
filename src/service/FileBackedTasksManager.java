@@ -13,7 +13,7 @@ import java.util.*;
 
 public class FileBackedTasksManager extends InMemoryTaskManager implements TaskManager {
 
-    String fileName; /* имя и путь файла */
+    private String fileName; /* имя и путь файла */
 
     /* конструктор создает файл вместе с объектом FileBackedTasksManager */
     public FileBackedTasksManager(String fileName) {
@@ -54,7 +54,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     }
 
     /* метод loadFromFile() создает новый менеджер на основе информации из файла */
-    static FileBackedTasksManager loadFromFile(String path) {
+    public static FileBackedTasksManager loadFromFile(String path) {
         FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(path);
         try  {
             String data = Files.readString(Path.of(path));
