@@ -6,6 +6,8 @@ import module.Epic;
 import module.Task;
 import module.Subtask;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
@@ -204,7 +206,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     /* updateSubtask обновляет подзадачу
-    Также метод обновляет статус эпика, к которому относится подзадача */
+    * Также метод обновляет статус эпика, к которому относится подзадача
+    * Отдельно метод обновляет задачу в сортированном по времени списке и перепроверяет расписание*/
     @Override
     public void updateSubtask(Subtask subtask) {
         if (subtasks.containsKey(subtask.getId())) {
@@ -220,7 +223,8 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    /* removeTaskByID находит задачу по ее id, удаляет ее и возвращает удаленный объект */
+    /* removeTaskByID находит задачу по ее id, удаляет ее и возвращает удаленный объект
+    * также метод освобождает расписание и удаляет задачу из списка отсортированного по времени*/
     @Override
     public Task removeTaskByID(int requestedID) {
         if (tasks.containsKey(requestedID)) {
@@ -267,7 +271,7 @@ public class InMemoryTaskManager implements TaskManager {
             subtasksID.remove(Integer.valueOf(requestedSubtask.getId()));
             updateEpic(epic);
 
-        historyManager.remove(requestedID);
+            historyManager.remove(requestedID);
 
             return subtasks.remove(requestedID);
         } else {
