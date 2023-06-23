@@ -4,6 +4,7 @@ import module.Epic;
 import module.Subtask;
 import module.Task;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TaskManager {
@@ -34,7 +35,7 @@ public interface TaskManager {
     Task getEpicTaskByID(int requestedID);
 
     /* Метод getSubtaskByID возвращает подзадачу по ее id */
-    Subtask getSubtaskByID(int requestedID);
+    Task getSubtaskByID(int requestedID);
 
     /* createTask создает новую простую задачу и возвращает ее */
     Task createTask(Task task);
@@ -75,6 +76,8 @@ public interface TaskManager {
 
     /* метод getHistory() возвращает список с историей просмотров последних 10 задач */
     List<Task> getHistory();
+
+    List<Task> getPrioritizedTasks();
 }
 
 
