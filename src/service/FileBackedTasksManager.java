@@ -48,18 +48,20 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                     fileBackedTasksManager.tasks.put(task.getId(), task);
                 }
             }
-            String historyData = tasksFromFile[tasksFromFile.length - 1];
-            List<Integer> historyDataList = historyFromString(historyData);
-            for (Integer key : historyDataList) {
-                if (fileBackedTasksManager.tasks.containsKey(key)) {
-                    Task task = fileBackedTasksManager.tasks.get(key);
-                    fileBackedTasksManager.historyManager.add(task);
-                } else if (fileBackedTasksManager.subtasks.containsKey(key)) {
-                    Subtask subtask = fileBackedTasksManager.subtasks.get(key);
-                    fileBackedTasksManager.historyManager.add(subtask);
-                } else if (fileBackedTasksManager.epics.containsKey(key)) {
-                    Epic epic = fileBackedTasksManager.epics.get(key);
-                    fileBackedTasksManager.historyManager.add(epic);
+            if (tasksFromFile.length > 3 && tasksFromFile[tasksFromFile.length - 2].equals("")) {
+                String historyData = tasksFromFile[tasksFromFile.length - 1];
+                List<Integer> historyDataList = historyFromString(historyData);
+                for (Integer key : historyDataList) {
+                    if (fileBackedTasksManager.tasks.containsKey(key)) {
+                        Task task = fileBackedTasksManager.tasks.get(key);
+                        fileBackedTasksManager.historyManager.add(task);
+                    } else if (fileBackedTasksManager.subtasks.containsKey(key)) {
+                        Subtask subtask = fileBackedTasksManager.subtasks.get(key);
+                        fileBackedTasksManager.historyManager.add(subtask);
+                    } else if (fileBackedTasksManager.epics.containsKey(key)) {
+                        Epic epic = fileBackedTasksManager.epics.get(key);
+                        fileBackedTasksManager.historyManager.add(epic);
+                    }
                 }
             }
         } catch (IOException e) {
@@ -84,8 +86,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     }
 
     @Override
-    public Subtask getSubtaskByID(int requestedID) {
-        Subtask subtask = super.getSubtaskByID(requestedID);
+    public Task getSubtaskByID(int requestedID) {
+        Task subtask = super.getSubtaskByID(requestedID);
         save();
         return subtask;
     }

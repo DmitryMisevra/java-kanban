@@ -39,6 +39,12 @@ public class InMemoryHistoryManager implements HistoryManager {
 
         /* метод removeNode удаляет из цепочки узлов требуемую ноду, перезаписывая ссылки у смежных нод */
         public void removeNode(Node<T> node) {
+            if (size == 1) {
+                head = null;
+                tail = null;
+                size--;
+                return;
+            }
             if (node == head) {
                 head = node.next;
                 head.prev = null;
@@ -74,6 +80,9 @@ public class InMemoryHistoryManager implements HistoryManager {
     @Override
     public void add(Task task) {
         int id = task.getId();
+        if (historyMap.containsKey(id) && historyMap.size() == 1) {
+            return;
+        }
         if (historyMap.containsKey(id)) {
             history.removeNode(historyMap.get(id));
         }
@@ -82,8 +91,10 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void remove(int id) {
-        history.removeNode(historyMap.get(id));
-        historyMap.remove(id);
+        if (historyMap.containsKey(id)) {
+            history.removeNode(historyMap.get(id));
+            historyMap.remove(id);
+        }
     }
 
     @Override
