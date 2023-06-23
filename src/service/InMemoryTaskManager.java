@@ -267,19 +267,23 @@ public class InMemoryTaskManager implements TaskManager {
     /* getSubtaskListByEpic возвращает список подзадач запрашиваемого эпика */
     @Override
     public List<Subtask> getSubtaskListByEpic(int epicID) {
-        List <Subtask> subtasksListByEpic = new ArrayList<>();
+        if (epics.containsKey(epicID)) {
+            List <Subtask> subtasksListByEpic = new ArrayList<>();
 
-        Epic epic = epics.get(epicID);
-        List<Integer> subtasksIDListByEpic = epic.getSubtasksID();
+            Epic epic = epics.get(epicID);
+            List<Integer> subtasksIDListByEpic = epic.getSubtasksID();
 
-        for (Integer subtaskID : subtasks.keySet()) {
-            for (Integer subtaskIDbyEpic : subtasksIDListByEpic) {
-                if (subtaskID.equals(subtaskIDbyEpic)) {
-                    subtasksListByEpic.add(subtasks.get(subtaskIDbyEpic));
+            for (Integer subtaskID : subtasks.keySet()) {
+                for (Integer subtaskIDbyEpic : subtasksIDListByEpic) {
+                    if (subtaskID.equals(subtaskIDbyEpic)) {
+                        subtasksListByEpic.add(subtasks.get(subtaskIDbyEpic));
+                    }
                 }
             }
+            return subtasksListByEpic;
+        } else {
+            return Collections.emptyList();
         }
-        return subtasksListByEpic;
     }
 
     public List<Task> getHistory() {
