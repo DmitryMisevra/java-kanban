@@ -3,6 +3,11 @@ package module;
 import helpers.Statuses;
 import helpers.Types;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Task {
 
     /* Атрибуты класса простой задачи - id, имя, описание, статус */
@@ -10,8 +15,20 @@ public class Task {
     protected String name;
     protected String description;
     protected Statuses status = Statuses.NEW; /* статус по умолчанию при создании новой задачи */
+    protected int duration;
+    protected LocalDateTime startTime;
+
+    protected List<LocalDateTime> intervals = new ArrayList<>();
 
     private final Types type = Types.TASK;
+
+    public List<LocalDateTime> getIntervals() {
+        return intervals;
+    }
+
+    public void setIntervals(List<LocalDateTime> intervals) {
+        this.intervals = intervals;
+    }
 
     public Types getType() {
         return type;

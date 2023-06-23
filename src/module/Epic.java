@@ -1,11 +1,13 @@
 package module;
 
 import helpers.Types;
-
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Epic extends Task {
+
+    protected LocalDateTime endTime;
 
     private final Types type = Types.EPIC;
 
@@ -27,6 +29,16 @@ public class Epic extends Task {
 
     public Epic(String name, String description) {
         super(name, description);
+        startTime = getStartTime();
+    }
+
+    @Override
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 
     @Override
