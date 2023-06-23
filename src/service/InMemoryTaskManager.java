@@ -234,6 +234,39 @@ public class InMemoryTaskManager implements TaskManager {
         return historyManager.getHistory();
     }
 
+    @Override
+    public List<Task> getPrioritizedTasks() {
+        return new ArrayList<>(tasksSortedByStartTime);
+    }
+
+    /* метод возвращает время старта для эпика */
+    private LocalDateTime getEpicStartTime(Epic epic) {
+        List<Subtask> subtasksEpicList = getSubtaskListByEpic(epic.getId());
+        return subtasksEpicList.stream()
+                .map(Task::getStartTime)
+                .filter(Objects::nonNull)
+                .min(LocalDateTime::compareTo)
+                .orElse(null);
+    }
+
+    /* метод возвращает время окончания задачи для эпика */
+    private LocalDateTime getEpicEndTime(Epic epic) {
+        List<Subtask> subtasksEpicList = getSubtaskListByEpic(epic.getId());
+        return subtasksEpicList.stream()
+                .map(Task::getEndTime)
+                .filter(Objects::nonNull)
+                .max(LocalDateTime::compareTo)
+                .orElse(null);
+    }
+
+    /* метод возвращает продолжительность эпика */
+    private int getEpicDuration(Epic epic) {
+        if (epic.getStartTime() != null && epic.getEndTime() != null) {
+            return (int) Duration.between(epic.getStartTime(), epic.getEndTime()).toMinutes();
+        }
+        return 0;
+    }
+
     /* updateEpicStatus находит эпик по его id и обновляет статус
     Используется как вспомогательный метод */
     private void updateEpicStatus(int epicID) {
