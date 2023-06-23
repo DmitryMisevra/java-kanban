@@ -192,7 +192,15 @@ public class InMemoryTaskManager implements TaskManager {
     /* updateEpic обновляет эпик*/
     @Override
     public void updateEpic(Epic epic) {
-        epics.put(epic.getId(), epic);
+        if (epics.containsKey(epic.getId())) {
+            updateEpicStatus(epic.getId());
+            epic.setStartTime(getEpicStartTime(epic));
+            epic.setEndTime(getEpicEndTime(epic));
+            epic.setDuration(getEpicDuration(epic));
+            epics.put(epic.getId(), epic);
+        } else {
+            throw new IllegalArgumentException("такого эпика нет в списке");
+        }
     }
 
     /* updateSubtask обновляет подзадачу
