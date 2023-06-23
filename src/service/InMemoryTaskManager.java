@@ -140,6 +140,8 @@ public class InMemoryTaskManager implements TaskManager {
         task.setId(idCounter);
         idCounter++;
         tasks.put(task.getId(), task);
+        tasksSortedByStartTime.add(task);
+        checkTimetable(task);
         return task;
     }
     /* createEpicTask создает новый эпик и возвращает его */
@@ -155,9 +157,12 @@ public class InMemoryTaskManager implements TaskManager {
     список подзадач и обновляет его статус */
     @Override
     public Subtask createSubtask(Subtask subtask) {
-        subtask.setId(idCounter);
-        idCounter++;
-        subtasks.put(subtask.getId(), subtask);
+        if (epics.containsKey(subtask.getSubtaskEpicID())) {
+            subtask.setId(idCounter);
+            idCounter++;
+            subtasks.put(subtask.getId(), subtask);
+            tasksSortedByStartTime.add(subtask);
+            checkTimetable(subtask);
 
             Epic epic = epics.get(subtask.getSubtaskEpicID());
             List<Integer> subtasksID = epic.getSubtasksID();
@@ -172,7 +177,14 @@ public class InMemoryTaskManager implements TaskManager {
     /* updateSimpleTask обновляет простую задачу */
     @Override
     public void updateTask(Task task) {
-        tasks.put(task.getId(), task);
+        if (tasks.containsKey(task.getId())) {
+            tasks.put(task.getId(), task);
+            tasksSortedByStartTime.remove(task);
+            tasksSortedByStartTime.add(task);
+            checkTimetable(task);
+        } else {
+            throw new IllegalArgumentException("такой задачи нет в списке");
+        }
     }
 
     /* updateEpic обновляет эпик*/
@@ -185,15 +197,30 @@ public class InMemoryTaskManager implements TaskManager {
     Также метод обновляет статус эпика, к которому относится подзадача */
     @Override
     public void updateSubtask(Subtask subtask) {
-        subtasks.put(subtask.getId(), subtask);
-        updateEpicStatus(subtask.getSubtaskEpicID());
+        if (subtasks.containsKey(subtask.getId())) {
+            subtasks.put(subtask.getId(), subtask);
+            tasksSortedByStartTime.remove(subtask);
+            tasksSortedByStartTime.add(subtask);
+            checkTimetable(subtask);
+
+            Epic epic = epics.get(subtask.getSubtaskEpicID());
+            updateEpic(epic);
+        } else {
+            throw new IllegalArgumentException("такой задачи нет в списке");
+        }
     }
 
     /* removeTaskByID находит задачу по ее id, удаляет ее и возвращает удаленный объект */
     @Override
     public Task removeTaskByID(int requestedID) {
-        historyManager.remove(requestedID);
-        return tasks.remove(requestedID);
+        if (tasks.containsKey(requestedID)) {
+            tasksSortedByStartTime.remove(getTaskByID(requestedID));
+            historyManager.remove(requestedID);
+            clearIntervalsFromTimetable(tasks.get(requestedID));
+            return tasks.remove(requestedID);
+        } else {
+            return null;
+        }
     }
 
     /* removeEpicTaskByID находит эпик по его id, удаляет его и возвращает удаленный объект
@@ -219,7 +246,10 @@ public class InMemoryTaskManager implements TaskManager {
     обновляет статус эпика */
     @Override
     public Subtask removeSubtaskByID(int requestedID) {
-        Subtask requestedSubtask = subtasks.get(requestedID);
+        if (subtasks.containsKey(requestedID)) {
+            Subtask requestedSubtask = subtasks.get(requestedID);
+            clearIntervalsFromTimetable(requestedSubtask);
+            tasksSortedByStartTime.remove(requestedSubtask);
 
         Epic epic = epics.get(requestedSubtask.getSubtaskEpicID());
         List<Integer> subtasksID = epic.getSubtasksID();
