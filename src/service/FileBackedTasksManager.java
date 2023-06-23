@@ -146,6 +146,24 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     }
 
     @Override
+    public void clearTaskList() {
+        super.clearTaskList();
+        save();
+    }
+
+    @Override
+    public void clearSubTaskList() {
+        super.clearSubTaskList();
+        save();
+    }
+
+    @Override
+    public void clearEpicTaskList() {
+        super.clearEpicTaskList();
+        save();
+    }
+
+    @Override
     public Subtask removeSubtaskByID(int requestedID) {
         Subtask removedSubtask = super.removeSubtaskByID(requestedID);
         save();
