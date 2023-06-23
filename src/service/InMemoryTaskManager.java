@@ -153,8 +153,9 @@ public class InMemoryTaskManager implements TaskManager {
         return epic;
     }
     /* createSubTask создает новую подзадачу и возвращает ее
-    Также метод добавляет подзадачу к требуемому эпику в
-    список подзадач и обновляет его статус */
+    * Также метод добавляет подзадачу к требуемому эпику в
+    * список подзадач и обновляет его статус
+    * Отдельно метод добавляет задачу в сортированный по времени список и проверяет расписание*/
     @Override
     public Subtask createSubtask(Subtask subtask) {
         if (epics.containsKey(subtask.getSubtaskEpicID())) {
@@ -174,7 +175,8 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    /* updateSimpleTask обновляет простую задачу */
+    /* updateSimpleTask обновляет простую задачу
+    * Отдельно метод обновляет задачу в сортированном по времени списке и перепроверяет расписание*/
     @Override
     public void updateTask(Task task) {
         if (tasks.containsKey(task.getId())) {
@@ -242,8 +244,9 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     /* removeSubtaskByID находит подзадачу по ее id, удаляет ее и возвращает удаленный объект
-    Также метод удаляет подзадачу из списка подзадач эпика, к которому она принадлежала и
-    обновляет статус эпика */
+    * Также метод удаляет подзадачу из списка подзадач эпика, к которому она принадлежала и
+    * обновляет статус эпика
+    * также метод освобождает расписание и удаляет задачу из списка отсортированного по времени*/
     @Override
     public Subtask removeSubtaskByID(int requestedID) {
         if (subtasks.containsKey(requestedID)) {
@@ -324,7 +327,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     /* updateEpicStatus находит эпик по его id и обновляет статус
-    Используется как вспомогательный метод */
+        Используется как вспомогательный метод */
     private void updateEpicStatus(int epicID) {
         Epic epic = epics.get(epicID);
         List<Integer> subtasksID = epic.getSubtasksID();
