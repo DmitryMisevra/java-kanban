@@ -103,22 +103,34 @@ public class InMemoryTaskManager implements TaskManager {
     /* getSimpleTaskByID возвращает простую задачу по ее id */
     @Override
     public Task getTaskByID(int requestedID) {
-        historyManager.add(tasks.get(requestedID));
-        return tasks.get(requestedID);
+        if (tasks.containsKey(requestedID)) {
+            historyManager.add(tasks.get(requestedID));
+            return tasks.get(requestedID);
+        } else {
+            return null;
+        }
     }
 
     /* getEpicTaskByID возвращает эпик по его id */
     @Override
     public Task getEpicTaskByID(int requestedID) {
-        historyManager.add(epics.get(requestedID));
-        return epics.get(requestedID);
+        if (epics.containsKey(requestedID)) {
+            historyManager.add(epics.get(requestedID));
+            return epics.get(requestedID);
+        } else {
+            return null;
+        }
     }
 
     /* Метод getSubtaskByID возвращает подзадачу по ее id */
     @Override
-    public Subtask getSubtaskByID(int requestedID) {
-        historyManager.add(subtasks.get(requestedID));
-        return subtasks.get(requestedID);
+    public Task getSubtaskByID(int requestedID) {
+        if (subtasks.containsKey(requestedID)) {
+            historyManager.add(subtasks.get(requestedID));
+            return subtasks.get(requestedID);
+        } else {
+            return null;
+        }
     }
 
     /* createSimpleTask создает новую простую задачу и возвращает ее */
@@ -147,11 +159,14 @@ public class InMemoryTaskManager implements TaskManager {
         idCounter++;
         subtasks.put(subtask.getId(), subtask);
 
-        Epic epic = epics.get(subtask.getSubtaskEpicID());
-        List<Integer> subtasksID = epic.getSubtasksID();
-        subtasksID.add(subtask.getId());
-        updateEpicStatus(epic.getId());
-        return subtask;
+            Epic epic = epics.get(subtask.getSubtaskEpicID());
+            List<Integer> subtasksID = epic.getSubtasksID();
+            subtasksID.add(subtask.getId());
+            updateEpic(epic);
+            return subtask;
+        } else {
+            return null;
+        }
     }
 
     /* updateSimpleTask обновляет простую задачу */
@@ -185,14 +200,18 @@ public class InMemoryTaskManager implements TaskManager {
     Также метод удаляет все подзадачи, относящиеся к этому эпику */
     @Override
     public Epic removeEpicTaskByID(int requestedID) {
-        Epic removedEpic = epics.remove(requestedID);
-        List<Integer> subtasksID = removedEpic.getSubtasksID();
-        for (Integer subtaskID : subtasksID) {
-            subtasks.remove(subtaskID);
-            historyManager.remove(subtaskID);
+        if (epics.containsKey(requestedID)) {
+            Epic removedEpic = epics.remove(requestedID);
+            List<Integer> subtasksID = removedEpic.getSubtasksID();
+            for (Integer subtaskID : subtasksID) {
+                subtasks.remove(subtaskID);
+                historyManager.remove(subtaskID);
+            }
+            historyManager.remove(requestedID);
+            return removedEpic;
+        } else {
+            return null;
         }
-        historyManager.remove(requestedID);
-        return removedEpic;
     }
 
     /* removeSubtaskByID находит подзадачу по ее id, удаляет ее и возвращает удаленный объект
@@ -209,7 +228,10 @@ public class InMemoryTaskManager implements TaskManager {
 
         historyManager.remove(requestedID);
 
-        return subtasks.remove(requestedID);
+            return subtasks.remove(requestedID);
+        } else {
+            return null;
+        }
     }
 
     /* getSubtaskListByEpic возвращает список подзадач запрашиваемого эпика */
