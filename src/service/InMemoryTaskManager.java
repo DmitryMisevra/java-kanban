@@ -69,16 +69,20 @@ public class InMemoryTaskManager implements TaskManager {
         return Objects.hash(tasks, epics, subtasks);
     }
 
-    /* clearTasklist() очищает мапу с простыми задачами */
+    /* clearTasklist() очищает мапу с простыми задачами и освобождает расписание */
     @Override
     public void clearTaskList() {
+        getTasks().forEach(tasksSortedByStartTime::remove);
+        getTasks().forEach(this::clearIntervalsFromTimetable);
         tasks.clear();
     }
 
-    /* clearSubtasklist() очищает мапу с подзадачами
+    /* clearSubtasklist() очищает мапу с подзадачами и освобождает расписание
     Также метод обновляет списки подзадач и статусы внутри епиков */
     @Override
     public void clearSubTaskList() {
+        getSubtasks().forEach(tasksSortedByStartTime::remove);
+        getSubtasks().forEach(this::clearIntervalsFromTimetable);
         subtasks.clear();
         for (Integer epicID : epics.keySet()) {
             Epic epic = epics.get(epicID);
@@ -265,6 +269,47 @@ public class InMemoryTaskManager implements TaskManager {
             epic.setStatus(Statuses.IN_PROGRESS);
         } else if (statusInProgress == 0 && statusDone == 0) {
             epic.setStatus(Statuses.NEW);
+        }
+    }
+
+    /* метод проверяет расписание и если оно свободно - заполняет блоки, которые заняты задачей */
+    private void checkTimetable(Task task) {
+        if (task.getStartTime() != null && task.getEndTime() != null) {
+            int minutes = task.getStartTime().getMinute();
+            List<LocalDateTime> taskIntervals = new ArrayList<>();
+
+            LocalDateTime checkedInterval = task.getStartTime().minusMinutes(minutes % 15);
+            LocalDateTime boundaryInterval = task.getEndTime().plusMinutes(15 - minutes % 15);
+
+            if (checkedInterval.isBefore(LocalDateTime.of(2023,6, 22, 0,0))) {
+                throw new IllegalArgumentException("время старта задачи должно быть начиная с 22.06.2023 г.");
+            }
+
+            if (checkedInterval.isAfter(LocalDateTime.of(2024,6, 22, 23,59))) {
+                throw new IllegalArgumentException("время старта задачи должно быть не позднее 22.06.2024г. 23:59");
+            }
+
+            if (boundaryInterval.isAfter(LocalDateTime.of(2024,6, 22, 0,0))) {
+                throw new IllegalArgumentException("время окончания задачи должно быть до 22.06.2024 г.");
+            }
+
+            while (checkedInterval.isBefore(boundaryInterval)) {
+                if (timetable.get(checkedInterval).equals(true)) {
+                    timetable.put(checkedInterval, false);
+                    taskIntervals.add(LocalDateTime.from(checkedInterval));
+                    checkedInterval = checkedInterval.plusMinutes(15);
+                } else {
+                    throw new IllegalArgumentException("текущее время занято");
+                }
+            }
+            task.setIntervals(taskIntervals);
+        }
+    }
+
+    /* метод проверяет расписание и освобождает блоки, занятые задачей */
+    private void clearIntervalsFromTimetable(Task task) {
+        if (!task.getIntervals().isEmpty()) {
+            task.getIntervals().forEach(interval -> timetable.put(interval, true));
         }
     }
 }
