@@ -18,6 +18,25 @@ public class InMemoryTaskManager implements TaskManager {
     protected Map<Integer, Epic> epics = new HashMap<>();
     protected Map<Integer, Subtask> subtasks = new HashMap<>();
 
+    /* для хранения отсортированных по дате времени задач используем список tasksSortedByStartTime*/
+    protected Set<Task> tasksSortedByStartTime =
+            new TreeSet<>(Comparator.comparing(
+                    Task::getStartTime,
+                    Comparator.nullsLast(Comparator.naturalOrder())));
+
+    /* для хранения 15 мин интервалов на год вперед используем мапу timetable*/
+    protected Map<LocalDateTime, Boolean> timetable = new HashMap<>();
+
+    /* В конструкторе мы сразу заполняем timetable интервалами 15 мин на год вперед */
+    public InMemoryTaskManager() {
+        LocalDateTime startCounter = LocalDateTime.of(2023,6, 22, 0,0);
+        LocalDateTime endCounter = startCounter.plusYears(1);
+        while (startCounter.isBefore(endCounter)) {
+            timetable.put(startCounter, true);
+            startCounter = startCounter.plusMinutes(15);
+        }
+    }
+
     /* getTasks() возвращает список задач простых задач */
     @Override
     public List<Task> getTasks() {
