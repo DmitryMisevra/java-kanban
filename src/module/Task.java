@@ -49,6 +49,29 @@ public class Task {
         this.description = description;
     }
 
+    public int getDuration() {
+        return duration;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        if (startTime != null && duration != 0) {
+            return startTime.plus(Duration.ofMinutes(duration));
+        }
+        return null;
+    }
+
     public String getName() {
         return name;
     }
