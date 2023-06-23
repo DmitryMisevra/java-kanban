@@ -262,10 +262,10 @@ public class InMemoryTaskManager implements TaskManager {
             clearIntervalsFromTimetable(requestedSubtask);
             tasksSortedByStartTime.remove(requestedSubtask);
 
-        Epic epic = epics.get(requestedSubtask.getSubtaskEpicID());
-        List<Integer> subtasksID = epic.getSubtasksID();
-        subtasksID.remove(Integer.valueOf(requestedSubtask.getId()));
-        updateEpicStatus(epic.getId());
+            Epic epic = epics.get(requestedSubtask.getSubtaskEpicID());
+            List<Integer> subtasksID = epic.getSubtasksID();
+            subtasksID.remove(Integer.valueOf(requestedSubtask.getId()));
+            updateEpic(epic);
 
         historyManager.remove(requestedID);
 
