@@ -2,6 +2,8 @@ package module;
 
 import helpers.Types;
 
+import java.util.Objects;
+
 public class Subtask extends Task {
 
     /* класс подзадачи наследует атрибуты и свойства простой задачи */
@@ -32,5 +34,19 @@ public class Subtask extends Task {
                 ", description='" + description + '\'' +
                 ", status='" + status + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Subtask subtask = (Subtask) o;
+        return subtaskEpicID == subtask.subtaskEpicID && type == subtask.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), subtaskEpicID, type);
     }
 }
