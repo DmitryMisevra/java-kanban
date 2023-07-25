@@ -11,8 +11,8 @@ public class Managers {
 
     /* метод getDefault() будет возвращать необходимый субкласс TaskManager. Пока по умолчанию поставил
      InMemoryTaskManager() */
-    public static TaskManager getDefault() {
-        return new InMemoryTaskManager();
+    public static TaskManager getDefault() throws IOException, InterruptedException {
+        return new HttpTaskManager("http://localhost:8078");
     }
 
     public static TaskManager getFIleBackedTasksManager(String path) {
