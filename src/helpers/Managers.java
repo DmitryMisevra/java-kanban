@@ -1,9 +1,16 @@
 package helpers;
 
-import service.HistoryManager;
-import service.InMemoryHistoryManager;
-import service.InMemoryTaskManager;
-import service.TaskManager;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import module.Epic;
+import module.Subtask;
+import module.Task;
+import server.adapters.EpicAdapter;
+import server.adapters.SubtaskAdapter;
+import server.adapters.TaskAdapter;
+import service.*;
+
+import java.io.IOException;
 
 public class Managers {
 
@@ -19,7 +26,15 @@ public class Managers {
         return new FileBackedTasksManager(path);
     }
 
-    public static HistoryManager getDefaultHistory () {
+    public static HistoryManager getDefaultHistory() {
         return new InMemoryHistoryManager();
+    }
+
+    public static Gson getGson() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Task.class, new TaskAdapter());
+        gsonBuilder.registerTypeAdapter(Epic.class, new EpicAdapter());
+        gsonBuilder.registerTypeAdapter(Subtask.class, new SubtaskAdapter());
+        return gsonBuilder.create();
     }
 }
