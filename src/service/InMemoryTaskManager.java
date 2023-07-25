@@ -110,7 +110,7 @@ public class InMemoryTaskManager implements TaskManager {
             historyManager.add(tasks.get(requestedID));
             return tasks.get(requestedID);
         } else {
-            return null;
+            throw new IllegalArgumentException("Задачи с таким id нет в списке");
         }
     }
 
@@ -121,7 +121,7 @@ public class InMemoryTaskManager implements TaskManager {
             historyManager.add(epics.get(requestedID));
             return epics.get(requestedID);
         } else {
-            return null;
+            throw new IllegalArgumentException("Эпика с таким id нет в списке");
         }
     }
 
@@ -132,7 +132,7 @@ public class InMemoryTaskManager implements TaskManager {
             historyManager.add(subtasks.get(requestedID));
             return subtasks.get(requestedID);
         } else {
-            return null;
+            throw new IllegalArgumentException("Подзадачи с таким id нет в списке");
         }
     }
 
@@ -174,7 +174,8 @@ public class InMemoryTaskManager implements TaskManager {
             updateEpic(epic);
             return subtask;
         } else {
-            return null;
+            throw new IllegalArgumentException("Невозможно создать подзадачу. Эпика с id " + subtask.getSubtaskEpicID()
+                    + " нет в списке");
         }
     }
 
@@ -252,7 +253,7 @@ public class InMemoryTaskManager implements TaskManager {
             historyManager.remove(requestedID);
             return removedEpic;
         } else {
-            return null;
+            throw new IllegalArgumentException("Невозможно удалить эпик. Эпика с таким id нет в списке");
         }
     }
 
@@ -276,7 +277,8 @@ public class InMemoryTaskManager implements TaskManager {
 
             return subtasks.remove(requestedID);
         } else {
-            return null;
+            throw new IllegalArgumentException("Невозможно удалить подзадачу. Подзадачи с таким с таким id нет в " +
+                    "списке");
         }
     }
 
