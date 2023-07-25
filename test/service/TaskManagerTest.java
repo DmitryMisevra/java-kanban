@@ -6,8 +6,6 @@ import module.Subtask;
 import module.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
-
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -118,10 +116,12 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    void shouldReturnNullIfWrongIDInGetTaskByIDMethod() {
+    void shouldThrowIllegalArgumentExceptionIfWrongIDInGetTaskByIDMethod() {
         List<Task> tasks = taskManager.getTasks();
         if (tasks.isEmpty()) {
-            assertNull(taskManager.getTaskByID(1));
+            final IllegalArgumentException exception1 = assertThrows(IllegalArgumentException.class,
+                    () -> taskManager.getTaskByID(1));
+            assertEquals("Задачи с таким id нет в списке", exception1.getMessage());
         }
     }
 
@@ -139,10 +139,12 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    void shouldReturnNullIfWrongIDInGetEpicsTaskByIDMethod() {
+    void shouldThrowIllegalArgumentExceptionIfWrongIDInGetEpicsTaskByIDMethod() {
         List<Epic> epics = taskManager.getEpics();
         if (epics.isEmpty()) {
-            assertNull(taskManager.getEpicTaskByID(1));
+            final IllegalArgumentException exception1 = assertThrows(IllegalArgumentException.class,
+                    () -> taskManager.getEpicTaskByID(1));
+            assertEquals("Эпика с таким id нет в списке", exception1.getMessage());
         }
     }
 
@@ -164,15 +166,17 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    void shouldReturnNullIfWrongIDInGetSubtaskByIDMethod() {
+    void shouldThrowIllegalArgumentExceptionIfWrongIDInGetSubtaskByIDMethod() {
         List<Subtask> subtasks = taskManager.getSubtasks();
         if (subtasks.isEmpty()) {
-            assertNull(taskManager.getSubtaskByID(1));
+            final IllegalArgumentException exception1 = assertThrows(IllegalArgumentException.class,
+                    () -> taskManager.getSubtaskByID(1));
+            assertEquals("Подзадачи с таким id нет в списке", exception1.getMessage());
         }
     }
 
     @Test
-    void shouldCreateTaskWithcreateTaskMethod() {
+    void shouldCreateTaskWithCreateTaskMethod() {
         Task task = new Task("Тестовая задача", "Тестовое описание");
         taskManager.createTask(task);
 
@@ -227,9 +231,11 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    void shouldReturnNullWithWrongEpicIDWithcreateSubtaskMethod() {
+    void shouldThrowIllegalArgumentExceptionWithWrongEpicIDWithCreateSubtaskMethod() {
         Subtask subtask = new Subtask("Тестовая подзадача", "Тестовое описание", 0);
-        assertNull(taskManager.createSubtask(subtask));
+        final IllegalArgumentException exception1 = assertThrows(IllegalArgumentException.class,
+                () -> taskManager.createSubtask(subtask));
+        assertEquals("Невозможно создать подзадачу. Эпика с id 0 нет в списке", exception1.getMessage());
     }
 
     @Test
@@ -252,10 +258,15 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    void shouldReturnNullWithDefaultTaskID() {
+    void shouldReturnIllegalArgumentExceptionWithDefaultTaskID() {
         Task task = new Task("Тестовая задача", "Тестовое описание");
         int taskID = task.getId();
-        assertNull(taskManager.getTaskByID(taskID));
+
+        final IllegalArgumentException exception1 = assertThrows(IllegalArgumentException.class,
+                () -> taskManager.getTaskByID(taskID));
+        assertEquals("Задачи с таким id нет в списке", exception1.getMessage());
+
+
     }
 
     @Test
@@ -282,10 +293,14 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    void shouldReturnNullWithDefaultEpicID() {
+    void shouldThrowIllegalArgumentExceptionWithDefaultEpicID() {
         Epic epic = new Epic("Тестовый эпик", "Тестовое описание");
         int epicID = epic.getId();
-        assertNull(taskManager.getEpicTaskByID(epicID));
+
+        final IllegalArgumentException exception3 = assertThrows(IllegalArgumentException.class,
+                () -> taskManager.getEpicTaskByID(epicID));
+        assertEquals("Эпика с таким id нет в списке", exception3.getMessage());
+
     }
 
     @Test
@@ -332,16 +347,22 @@ abstract class TaskManagerTest <T extends TaskManager> {
         int taskID = task.getId();
 
         taskManager.removeTaskByID(taskID);
-        assertNull(taskManager.getTaskByID(taskID), "задача не удалена");
+
+        final IllegalArgumentException exception1 = assertThrows(IllegalArgumentException.class,
+                () -> taskManager.getTaskByID(taskID));
+        assertEquals("Задачи с таким id нет в списке", exception1.getMessage());
 
         List<Task> historyList = taskManager.getHistory();
         assertFalse(historyList.contains(task), "задача осталась в истории просмотров");
     }
     @Test
-    void shouldReturnNullWithWrongIDWhenRemoveTask() {
+    void shouldThrowIllegalArgumentExceptionWithWrongIDWhenRemoveTask() {
         List<Task> tasks = taskManager.getTasks();
         if (tasks.isEmpty()) {
-            assertNull(taskManager.removeTaskByID(1));
+            final IllegalArgumentException exception1 = assertThrows(IllegalArgumentException.class,
+                    () -> taskManager.removeTaskByID(1));
+            assertEquals("Невозможно удалить задачу. Задачи с таким id нет в списке",
+                    exception1.getMessage());
         }
     }
 
@@ -363,9 +384,17 @@ abstract class TaskManagerTest <T extends TaskManager> {
 
         taskManager.removeEpicTaskByID(epicID);
 
-        assertNull(taskManager.getEpicTaskByID(epicID), "задача не удалена");
-        assertNull(taskManager.getSubtaskByID(subtaskOneID), "подзадача 1 не удалена");
-        assertNull(taskManager.getSubtaskByID(subtaskTwoID), "подзадача 2 не удалена");
+        final IllegalArgumentException exception1 = assertThrows(IllegalArgumentException.class,
+                () -> taskManager.getEpicTaskByID(epicID));
+        assertEquals("Эпика с таким id нет в списке", exception1.getMessage());
+
+        final IllegalArgumentException exception2 = assertThrows(IllegalArgumentException.class,
+                () -> taskManager.getSubtaskByID(subtaskOneID));
+        assertEquals("Подзадачи с таким id нет в списке", exception2.getMessage());
+
+        final IllegalArgumentException exception3 = assertThrows(IllegalArgumentException.class,
+                () -> taskManager.getSubtaskByID(subtaskTwoID));
+        assertEquals("Подзадачи с таким id нет в списке", exception3.getMessage());
 
         assertFalse(historyList.contains(epic), "эпик остался в истории просмотров");
         assertFalse(historyList.contains(subtaskOne), "подзадача 1 осталась в истории просмотров");
@@ -373,10 +402,12 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    void shouldReturnNullDWhenRemoveWithWrongID() {
+    void shouldThrowIllegalArgumentExceptionDWhenRemoveWithWrongID() {
         List<Epic> epics = taskManager.getEpics();
         if (epics.isEmpty()) {
-            assertNull(taskManager.removeEpicTaskByID(1));
+            final IllegalArgumentException exception1 = assertThrows(IllegalArgumentException.class,
+                    () -> taskManager.removeEpicTaskByID(1));
+            assertEquals("Невозможно удалить эпик. Эпика с таким id нет в списке", exception1.getMessage());
         }
     }
 
@@ -397,8 +428,13 @@ abstract class TaskManagerTest <T extends TaskManager> {
         taskManager.removeSubtaskByID(subtaskOneID);
         taskManager.removeSubtaskByID(subtaskTwoID);
 
-        assertNull(taskManager.getSubtaskByID(subtaskOneID), "подзадача 1 не удалена");
-        assertNull(taskManager.getSubtaskByID(subtaskTwoID), "подзадача 2 не удалена");
+        final IllegalArgumentException exception1 = assertThrows(IllegalArgumentException.class,
+                () -> taskManager.getSubtaskByID(subtaskOneID));
+        assertEquals("Подзадачи с таким id нет в списке", exception1.getMessage());
+
+        final IllegalArgumentException exception2 = assertThrows(IllegalArgumentException.class,
+                () -> taskManager.getSubtaskByID(subtaskTwoID));
+        assertEquals("Подзадачи с таким id нет в списке", exception2.getMessage());
 
         assertFalse(taskManager.getHistory().contains(subtaskOne), "подзадача осталась в истории просмотров");
         assertFalse(taskManager.getHistory().contains(subtaskTwo), "подзадача осталась в истории просмотров");
@@ -411,10 +447,13 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    void shouldReturnNullWithWrongIDWhenRemoveSubtask() {
+    void shouldThrowIllegalArgumentExceptionWithWrongIDWhenRemoveSubtask() {
         List<Subtask> subtasks = taskManager.getSubtasks();
         if (subtasks.isEmpty()) {
-            assertNull(taskManager.removeSubtaskByID(1));
+            final IllegalArgumentException exception1 = assertThrows(IllegalArgumentException.class,
+                    () -> taskManager.removeSubtaskByID(1));
+            assertEquals("Невозможно удалить подзадачу. Подзадачи с таким с таким id нет в списке",
+                    exception1.getMessage());
         }
     }
 
@@ -742,7 +781,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    void ShouldThrowIllegalArgumentExceptionWhenTimeIntersectionIsFound() {
+    void shouldThrowIllegalArgumentExceptionWhenTimeIntersectionIsFound() {
 
         final IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
@@ -761,7 +800,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    void ShouldThrowIllegalArgumentExceptionWhenStartTimeIsBeforeSetTime() {
+    void shouldThrowIllegalArgumentExceptionWhenStartTimeIsBeforeSetTime() {
 
         final IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
@@ -775,7 +814,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    void ShouldThrowIllegalArgumentExceptionWhenStartTimeIsAfterSetTime() {
+    void shouldThrowIllegalArgumentExceptionWhenStartTimeIsAfterSetTime() {
 
         final IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
@@ -789,7 +828,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    void ShouldThrowIllegalArgumentExceptionWhenEndTimeIsAfterSetTime() {
+    void shouldThrowIllegalArgumentExceptionWhenEndTimeIsAfterSetTime() {
 
         final IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
@@ -803,7 +842,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    void ShouldReleaseTimetableWhenTaskIsDeleted() {
+    void shouldReleaseTimetableWhenTaskIsDeleted() {
         Task taskOne = new Task("Задача №1", "Это простая задача");
         taskOne.setStartTime(LocalDateTime.of(2023, 6, 22, 10, 30));
         taskOne.setDuration(60);
@@ -819,7 +858,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    void ShouldReleaseTimetableWhenTaskListIsDeleted() {
+    void shouldReleaseTimetableWhenTaskListIsDeleted() {
         Task taskOne = new Task("Задача №1", "Это простая задача");
         taskOne.setStartTime(LocalDateTime.of(2023, 6, 22, 10, 30));
         taskOne.setDuration(60);
