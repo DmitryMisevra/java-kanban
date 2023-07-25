@@ -8,13 +8,6 @@ public class Subtask extends Task {
 
     private int subtaskEpicID; /* позадача будет хранить id эпика, которому она принадлежит */
 
-    private final Types type = Types.SUBTASK;
-
-    @Override
-    public Types getType() {
-        return type;
-    }
-
     public int getSubtaskEpicID() {
         return subtaskEpicID;
     }
@@ -27,6 +20,7 @@ public class Subtask extends Task {
     public Subtask(String name, String description, int subtaskEpicID) {
         super(name, description);
         this.subtaskEpicID = subtaskEpicID;
+        type = Types.SUBTASK;
     }
 
     @Override
