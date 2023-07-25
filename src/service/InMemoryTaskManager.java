@@ -147,6 +147,7 @@ public class InMemoryTaskManager implements TaskManager {
         checkTimetable(task);
         return task;
     }
+
     /* createEpicTask создает новый эпик и возвращает его */
     @Override
     public Epic createEpicTask(Epic epic) {
@@ -155,10 +156,11 @@ public class InMemoryTaskManager implements TaskManager {
         epics.put(epic.getId(), epic);
         return epic;
     }
+
     /* createSubTask создает новую подзадачу и возвращает ее
-    * Также метод добавляет подзадачу к требуемому эпику в
-    * список подзадач и обновляет его статус
-    * Отдельно метод добавляет задачу в сортированный по времени список и проверяет расписание*/
+     * Также метод добавляет подзадачу к требуемому эпику в
+     * список подзадач и обновляет его статус
+     * Отдельно метод добавляет задачу в сортированный по времени список и проверяет расписание*/
     @Override
     public Subtask createSubtask(Subtask subtask) {
         if (epics.containsKey(subtask.getSubtaskEpicID())) {
@@ -180,7 +182,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     /* updateSimpleTask обновляет простую задачу
-    * Отдельно метод обновляет задачу в сортированном по времени списке и перепроверяет расписание*/
+     * Отдельно метод обновляет задачу в сортированном по времени списке и перепроверяет расписание*/
     @Override
     public void updateTask(Task task) {
         if (tasks.containsKey(task.getId())) {
@@ -208,8 +210,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     /* updateSubtask обновляет подзадачу
-    * Также метод обновляет статус эпика, к которому относится подзадача
-    * Отдельно метод обновляет задачу в сортированном по времени списке и перепроверяет расписание*/
+     * Также метод обновляет статус эпика, к которому относится подзадача
+     * Отдельно метод обновляет задачу в сортированном по времени списке и перепроверяет расписание*/
     @Override
     public void updateSubtask(Subtask subtask) {
         if (subtasks.containsKey(subtask.getId())) {
@@ -226,7 +228,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     /* removeTaskByID находит задачу по ее id, удаляет ее и возвращает удаленный объект
-    * также метод освобождает расписание и удаляет задачу из списка отсортированного по времени*/
+     * также метод освобождает расписание и удаляет задачу из списка отсортированного по времени*/
     @Override
     public Task removeTaskByID(int requestedID) {
         if (tasks.containsKey(requestedID)) {
@@ -258,9 +260,9 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     /* removeSubtaskByID находит подзадачу по ее id, удаляет ее и возвращает удаленный объект
-    * Также метод удаляет подзадачу из списка подзадач эпика, к которому она принадлежала и
-    * обновляет статус эпика
-    * также метод освобождает расписание и удаляет задачу из списка отсортированного по времени*/
+     * Также метод удаляет подзадачу из списка подзадач эпика, к которому она принадлежала и
+     * обновляет статус эпика
+     * также метод освобождает расписание и удаляет задачу из списка отсортированного по времени*/
     @Override
     public Subtask removeSubtaskByID(int requestedID) {
         if (subtasks.containsKey(requestedID)) {
