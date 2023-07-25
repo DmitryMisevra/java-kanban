@@ -24,14 +24,15 @@ public class InMemoryTaskManager implements TaskManager {
     protected Set<Task> tasksSortedByStartTime =
             new TreeSet<>(Comparator.comparing(
                     Task::getStartTime,
-                    Comparator.nullsLast(Comparator.naturalOrder())));
+                    Comparator.nullsLast(Comparator.naturalOrder()))
+                    .thenComparing(Task::getId));
 
     /* для хранения 15 мин интервалов на год вперед используем мапу timetable*/
     protected Map<LocalDateTime, Boolean> timetable = new HashMap<>();
 
     /* В конструкторе мы сразу заполняем timetable интервалами 15 мин на год вперед */
     public InMemoryTaskManager() {
-        LocalDateTime startCounter = LocalDateTime.of(2023,6, 22, 0,0);
+        LocalDateTime startCounter = LocalDateTime.of(2023, 6, 22, 0, 0);
         LocalDateTime endCounter = startCounter.plusYears(1);
         while (startCounter.isBefore(endCounter)) {
             timetable.put(startCounter, true);
@@ -283,7 +284,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<Subtask> getSubtaskListByEpic(int epicID) {
         if (epics.containsKey(epicID)) {
-            List <Subtask> subtasksListByEpic = new ArrayList<>();
+            List<Subtask> subtasksListByEpic = new ArrayList<>();
 
             Epic epic = epics.get(epicID);
             List<Integer> subtasksIDListByEpic = epic.getSubtasksID();
@@ -385,15 +386,15 @@ public class InMemoryTaskManager implements TaskManager {
             LocalDateTime checkedInterval = task.getStartTime().minusMinutes(minutes % 15);
             LocalDateTime boundaryInterval = task.getEndTime().plusMinutes(15 - minutes % 15);
 
-            if (checkedInterval.isBefore(LocalDateTime.of(2023,6, 22, 0,0))) {
+            if (checkedInterval.isBefore(LocalDateTime.of(2023, 6, 22, 0, 0))) {
                 throw new IllegalArgumentException("время старта задачи должно быть начиная с 22.06.2023 г.");
             }
 
-            if (checkedInterval.isAfter(LocalDateTime.of(2024,6, 22, 23,59))) {
+            if (checkedInterval.isAfter(LocalDateTime.of(2024, 6, 22, 23, 59))) {
                 throw new IllegalArgumentException("время старта задачи должно быть не позднее 22.06.2024г. 23:59");
             }
 
-            if (boundaryInterval.isAfter(LocalDateTime.of(2024,6, 22, 0,0))) {
+            if (boundaryInterval.isAfter(LocalDateTime.of(2024, 6, 22, 0, 0))) {
                 throw new IllegalArgumentException("время окончания задачи должно быть до 22.06.2024 г.");
             }
 
