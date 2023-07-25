@@ -181,7 +181,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     метод historyToString(HistoryManager manager) преобразует данные истории просмотров в строку для последующего
     сохранения в файл
     */
-    private static String historyToString(HistoryManager manager) {
+    protected static String historyToString(HistoryManager manager) {
         List<String> historyList = new ArrayList<>();
         for (Task task : manager.getHistory()) {
             historyList.add(Integer.toString(task.getId()));
@@ -191,7 +191,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
 
     /* метод historyFromString() считывает историю просмотров из файла и возвращает ее в список */
 
-    private static List<Integer> historyFromString(String value) {
+    protected static List<Integer> historyFromString(String value) {
         String[] split = value.split(",");
         List<Integer> historyList = new ArrayList<>();
         for (String s : split) {
@@ -201,7 +201,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     }
 
     /* метод save() сохраняет текущее состояние менеджера в указанный файл */
-    private void save() {
+    protected void save() {
         try (FileWriter out = new FileWriter(fileName)) {
             out.write("id,type,name,status,description,startTime,duration,endTime,epic" + "\n");
             Map<Integer, Task> allTasks = new HashMap<>();
@@ -219,7 +219,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     }
 
     /* метод toString(Task task) сохраняет параметры задачи в строку для ее дальнейшего сохранения в файл  */
-    private String taskToString(Task task) {
+    protected String taskToString(Task task) {
         String startTimeAsString = (task.getStartTime() == null) ? "null" : task.getStartTime().format(formatter);
         String endTimeAsString = (task.getEndTime() == null) ? "null" : task.getEndTime().format(formatter);
 
@@ -259,7 +259,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     }
 
     /* метод fromString() принимает строку с параметрами задачи и на ее базе создает задачу */
-    private Task fromString(String value) {
+    protected Task fromString(String value) {
         String[] split = value.split(",");
         int id = Integer.parseInt(split[0]);
         Types type = Types.valueOf(split[1]);
