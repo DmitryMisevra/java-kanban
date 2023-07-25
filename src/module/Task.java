@@ -20,7 +20,7 @@ public class Task {
 
     protected List<LocalDateTime> intervals = new ArrayList<>();
 
-    private final Types type = Types.TASK;
+    protected Types type;
 
     public List<LocalDateTime> getIntervals() {
         return intervals;
@@ -47,6 +47,7 @@ public class Task {
     public Task(String name, String description) {
         this.name = name;
         this.description = description;
+        type = Types.TASK;
     }
 
     public int getDuration() {

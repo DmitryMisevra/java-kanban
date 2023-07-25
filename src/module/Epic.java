@@ -10,18 +10,12 @@ public class Epic extends Task {
 
     protected LocalDateTime endTime;
 
-    private final Types type = Types.EPIC;
 
     private List<Integer> subtasksID = new ArrayList<>(); /* эпик хранит список подзадач, которые ему
     принадлежат */
 
     public List<Integer> getSubtasksID() {
         return subtasksID;
-    }
-
-    @Override
-    public Types getType() {
-        return type;
     }
 
     public void setSubtasksID(List<Integer> subtasksID) {
@@ -31,6 +25,7 @@ public class Epic extends Task {
     public Epic(String name, String description) {
         super(name, description);
         startTime = getStartTime();
+        type = Types.EPIC;
     }
 
     @Override
