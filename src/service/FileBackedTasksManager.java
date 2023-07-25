@@ -15,21 +15,25 @@ import java.util.*;
 
 public class FileBackedTasksManager extends InMemoryTaskManager implements TaskManager {
 
-    private String fileName; /* имя и путь файла */
+    protected String fileName; /* имя и путь файла */
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy|HH:mm");
 
     /* конструктор создает файл вместе с объектом FileBackedTasksManager */
     public FileBackedTasksManager(String fileName) {
         this.fileName = fileName;
-
-        Path path = Paths.get(fileName);
-        try {
-            if (!Files.exists(path)) {
-                Files.createFile(path);
+        if (fileName != null) {
+            Path path = Paths.get(fileName);
+            try {
+                if (!Files.exists(path)) {
+                    Files.createFile(path);
+                }
+            } catch (IOException e) {
+                throw new ManagerSaveException("Ошибка при создании файла: " + e.getMessage());
             }
-        } catch (IOException e) {
-            throw new ManagerSaveException("Ошибка при создании файла: " + e.getMessage());
         }
+    }
+
+    public FileBackedTasksManager() {
     }
 
     /* метод loadFromFile() создает новый менеджер на основе информации из файла */
