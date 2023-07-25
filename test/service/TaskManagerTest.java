@@ -770,6 +770,9 @@ abstract class TaskManagerTest <T extends TaskManager> {
         Subtask subtaskThree = new Subtask("Тестовая подзадача 3", "Тестовое описание 3", epicID);
         taskManager.createSubtask(subtaskThree);
 
+        Subtask subtaskFour = new Subtask("Тестовая подзадача 4", "Тестовое описание 4", epicID);
+        taskManager.createSubtask(subtaskFour);
+
 
         List<Task> prioritizedTasksList = taskManager.getPrioritizedTasks();
         prioritizedTasksList.forEach(System.out::println);
@@ -777,6 +780,8 @@ abstract class TaskManagerTest <T extends TaskManager> {
         assertNotNull(prioritizedTasksList, "список приоритетных задач не найден");
         assertEquals(taskTwo, prioritizedTasksList.get(0), "самая срочная задача не стоит в начале списка");
         assertEquals(subtaskThree, prioritizedTasksList.get(4), "задача без стартового времени должна быть" +
+                " в конце списка");
+        assertEquals(subtaskFour, prioritizedTasksList.get(5), "задача без стартового времени должна быть" +
                 " в конце списка");
     }
 
