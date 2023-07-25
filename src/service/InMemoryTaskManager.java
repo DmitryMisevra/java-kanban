@@ -237,7 +237,7 @@ public class InMemoryTaskManager implements TaskManager {
             clearIntervalsFromTimetable(tasks.get(requestedID));
             return tasks.remove(requestedID);
         } else {
-            return null;
+            throw new IllegalArgumentException("Невозможно удалить задачу. Задачи с таким id нет в списке");
         }
     }
 
