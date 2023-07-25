@@ -358,6 +358,9 @@ public class InMemoryTaskManager implements TaskManager {
         int statusInProgress = 0;
         int statusDone = 0;
         for (Integer subtaskID : subtasksID) {
+            if (subtasks.get(subtaskID) == null) {
+                continue;
+            }
             Statuses SubtaskStatus = subtasks.get(subtaskID).getStatus();
             switch (SubtaskStatus) {
                 case NEW:
