@@ -16,7 +16,7 @@ import java.util.*;
 public class FileBackedTasksManager extends InMemoryTaskManager {
 
     protected String fileName; /* имя и путь файла */
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy|HH:mm");
+    protected DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy|HH:mm");
 
     /* конструктор создает файл вместе с объектом FileBackedTasksManager */
     public FileBackedTasksManager(String fileName) {
