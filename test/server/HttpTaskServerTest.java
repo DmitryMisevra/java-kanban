@@ -6,9 +6,7 @@ import helpers.Managers;
 import module.Epic;
 import module.Subtask;
 import module.Task;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import service.TaskManager;
 
 import java.io.IOException;
@@ -24,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HttpTaskServerTest {
     private HttpTaskServer httpTaskServer;
-
+    private static KVServer kvServer;
     private final Gson gson = Managers.getGson();
 
     private TaskManager taskManager;
@@ -39,10 +37,16 @@ class HttpTaskServerTest {
     private Subtask subtaskTwo;
     private Subtask subtaskThree;
 
+    @BeforeAll
+    static void beforeAll() throws IOException {
+        kvServer = new KVServer();
+        kvServer.start();
+    }
 
     @BeforeEach
-    void init() throws IOException {
-        taskManager = Managers.getFIleBackedTasksManager("src/data/tasks.csv");
+    void init() throws IOException, InterruptedException {
+//        taskManager = Managers.getFIleBackedTasksManager("src/data/tasks.csv");
+        taskManager = Managers.getDefault();
         httpTaskServer = new HttpTaskServer(taskManager);
         httpTaskServer.start();
 
@@ -87,6 +91,11 @@ class HttpTaskServerTest {
     @AfterEach
     void tearDown() {
         httpTaskServer.stop();
+    }
+
+    @AfterAll
+    static void afterAll() {
+        kvServer.stop();
     }
 
 
